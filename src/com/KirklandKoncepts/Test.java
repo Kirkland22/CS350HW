@@ -5,8 +5,21 @@ package com.KirklandKoncepts;
  */
 public class Test extends Survey {
 
-    private String testName;
 
 
 
+
+
+
+
+
+    @Override
+    public String getName() {
+        return super.getName();
+    }
+
+    @Override
+    protected void setName(String name) {
+        super.setName(name);
+    }
 }

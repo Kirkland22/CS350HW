@@ -14,7 +14,7 @@ public class ConsoleInput extends Input {
 
     @Override
     public String getInput() {
-        return scan.next();
+        return scan.nextLine();
     }
 
 
