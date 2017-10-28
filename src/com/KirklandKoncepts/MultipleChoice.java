@@ -23,9 +23,10 @@ public class MultipleChoice extends Question {
         // Get Number of options
        try {
             consoleOutput.display(numOfOptionsString);
-            Integer options = Integer.parseInt(consoleInput.getInput());
+            numOfOptions = Integer.parseInt(consoleInput.getInput());
 
-            for (int i = 0; i < options; i++) {
+
+            for (int i = 0; i < numOfOptions; i++) {
                 answer = new StringAnswerResponse();
                 consoleOutput.display(addingOptionsString + (i+1) + ":");
                 answer.setResponse(consoleInput.getInput());
