@@ -7,12 +7,13 @@ public class StringPrompt extends Prompt {
 
     @Override
     public void display() {
-        String string;
+        String string = (String) getPrompt();
+        System.out.println(string);
     }
 
     @Override
     public Object getPrompt() {
-        return getPrompt();
+        return super.getPrompt();
     }
 
     @Override

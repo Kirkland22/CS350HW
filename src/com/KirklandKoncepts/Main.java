@@ -11,8 +11,8 @@ public class Main {
     private static ConsoleInput consoleInput = new ConsoleInput();
     private static ConsoleOutput consoleOutput = new ConsoleOutput();
 
-    private static String[] generalMenu = {"Menu 1:","1) Survey","2) Test","3) Quit"};
-    private static String[] surveyMenu2 = {"Survey Menu 2:","1) Create a new Survey","2) Display a Survey","3) Load a Survey","4) Save a Survey","5) Quit"};
+    private static String[] generalMenu = {"\nMenu 1:","1) Survey","2) Test","3) Quit"};
+    private static String[] surveyMenu2 = {"\nSurvey Menu 2:","1) Create a new Survey","2) Display a Survey","3) Load a Survey","4) Save a Survey","5) Quit"};
 
 
     public static void main(String[] args) {
@@ -46,7 +46,6 @@ public class Main {
         }
     private static void testMenu() {
 
-        Test test = new Test();
         consoleOutput.display("You picked Test");
     }
 

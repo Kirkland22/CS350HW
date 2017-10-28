@@ -7,7 +7,8 @@ public class MultipleChoice extends Question {
 
     private int numOfCorrectAnswers;
     private int numOfOptions;
-    private String numOfOptionsPrompt = "How many multiple choice options would you like?";
+    private String numOfOptionsString = "How many multiple choice options would you like?";
+    private String addingOptionsString = "Enter Answer #";
 
 
 
@@ -18,19 +19,25 @@ public class MultipleChoice extends Question {
     @Override
     public void create() {
 
+        AnswerResponse<String> answer;
         // Get Number of options
-        try {
-            consoleOutput.display(numOfOptionsPrompt);
+       try {
+            consoleOutput.display(numOfOptionsString);
             Integer options = Integer.parseInt(consoleInput.getInput());
 
             for (int i = 0; i < options; i++) {
-
+                answer = new StringAnswerResponse();
+                consoleOutput.display(addingOptionsString + (i+1) + ":");
+                answer.setResponse(consoleInput.getInput());
+                addAnswer(answer);
             }
 
         }
         catch (Exception e) {
+           System.out.println("Error!");
 
-        }
+      }
+
 
     }
 
@@ -40,5 +47,14 @@ public class MultipleChoice extends Question {
 
     private void setNumOfOptions(int numOfOptions) {
         this.numOfOptions = numOfOptions;
+    }
+
+    @Override
+    public void display() {
+        getPrompt().display();
+        for (int i = 0; i < answers.size(); i++) {
+
+            consoleOutput.displayONELINE(getMutlipleChoiceOptions()[i] + ") " + answers.get(i).getResponse() + "\n");
+        }
     }
 }

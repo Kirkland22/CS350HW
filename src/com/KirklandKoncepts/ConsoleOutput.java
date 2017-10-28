@@ -14,6 +14,10 @@ public class ConsoleOutput extends Output {
 
     }
 
+    public void displayONELINE(String string) {
+        System.out.print(string);
+    }
+
     @Override
     public void display(Object[] output) {
         String[] strings = (String[]) output;
