@@ -5,6 +5,7 @@ package com.KirklandKoncepts;
  */
 public class StringAnswerResponse extends AnswerResponse {
 
+    private boolean correctAnswer = false;
     @Override
     public Object getResponse() {
         return super.getResponse();
@@ -20,5 +21,15 @@ public class StringAnswerResponse extends AnswerResponse {
     public void display() {
         String string = (String) getResponse();
         System.out.println(string);
+    }
+
+
+    public boolean isCorrectAnswer() {
+        return correctAnswer;
+    }
+
+
+    public void setCorrectAnswer(boolean correctAnswer) {
+        this.correctAnswer = correctAnswer;
     }
 }

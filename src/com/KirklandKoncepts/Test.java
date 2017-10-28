@@ -16,4 +16,11 @@ public class Test extends Survey {
     protected void setName(String name) {
         super.setName(name);
     }
+
+
+    @Override
+    public void create() {
+        super.create();
+
+    }
 }

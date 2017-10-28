@@ -13,11 +13,12 @@ public class MultipleChoice extends Question {
 
 
     public MultipleChoice() {
-        create();
+        setQuestionType("Multiple Choice Question");
     }
 
     @Override
     public void create() {
+        getPromptFromUser();
 
         AnswerResponse<String> answer;
         // Get Number of options
@@ -32,30 +33,31 @@ public class MultipleChoice extends Question {
                 answer.setResponse(consoleInput.getInput());
                 addAnswer(answer);
             }
-
         }
         catch (Exception e) {
-           System.out.println("Error!");
+           create();
 
       }
 
-
     }
 
-    private void setNumOfCorrectAnswers(int numOfCorrectAnswers) {
+    public void setNumOfCorrectAnswers(int numOfCorrectAnswers) {
         this.numOfCorrectAnswers = numOfCorrectAnswers;
     }
 
-    private void setNumOfOptions(int numOfOptions) {
+    public void setNumOfOptions(int numOfOptions) {
         this.numOfOptions = numOfOptions;
     }
 
     @Override
     public void display() {
+
         getPrompt().display();
         for (int i = 0; i < answers.size(); i++) {
 
             consoleOutput.displayONELINE(getMutlipleChoiceOptions()[i] + ") " + answers.get(i).getResponse() + "\n");
         }
+
+        consoleOutput.displayONELINE("\n");
     }
 }

@@ -10,7 +10,7 @@ import java.util.Scanner;
 // TODO: 10/21/17 Figure out how to call scan.close() w/o closing System.in
 public class ConsoleInput extends Input {
 
-    private Scanner scan = new Scanner(System.in);
+    private transient Scanner scan = new Scanner(System.in);
 
     @Override
     public String getInput() {

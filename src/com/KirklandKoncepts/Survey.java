@@ -96,29 +96,52 @@ public class Survey implements Serializable {
 
     public void create() {
 
-        Question q = createQuestion();
-        questions.add( q );
+        boolean isAddingQuestions = true;
+        Question question =  null;
 
+        while (isAddingQuestions) {
+            consoleOutput.display(addQuestionPrompt);
+            String choice = consoleInput.getInput();
 
-    }
+            switch (choice) {
 
-    // TODO: 10/21/17 Figure out creation of Questions
-    private Question createQuestion () {
+                case "1":
+                    question = new TrueFalse();
+                    question.create();
+                    questions.add( question );
 
-      Question question = null;
+                    break;
 
-        consoleOutput.display(addQuestionPrompt);
-        String choice = consoleInput.getInput();
-
-        switch (choice) {
-
-            case "1":
-                question = new MultipleChoice();
-                break;
-
+                case "2":
+                    question = new MultipleChoice();
+                    question.create();
+                    questions.add( question );
+                    break;
+                case "3":
+                    question = new MultipleChoice();
+                    question.create();
+                    questions.add( question );
+                    break;
+                case "4":
+                    question = new MultipleChoice();
+                    question.create();
+                    questions.add( question );
+                    break;
+                case "5":
+                    question = new MultipleChoice();
+                    question.create();
+                    questions.add( question );
+                    break;
+                case "6":
+                    question = new MultipleChoice();
+                    question.create();
+                    questions.add( question );
+                    break;
+                case "q" :
+                    isAddingQuestions = false;
+            }
         }
 
-    return question;
     }
 
 
@@ -127,7 +150,9 @@ public class Survey implements Serializable {
     }
 
     public void display() {
+        consoleOutput.display("");
         for (int i = 0; i < questions.size(); i++) {
+            consoleOutput.displayONELINE((i+1) + ") ");
             questions.get(i).display();
         }
     }

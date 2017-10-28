@@ -1,34 +1,40 @@
 package com.KirklandKoncepts;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Kirkland on 10/21/17.
  */
-public abstract class Question {
+public abstract class Question implements Serializable {
 
 protected ConsoleInput consoleInput;
 protected ConsoleOutput consoleOutput;
-
 private Prompt prompt;
 
 protected ArrayList<AnswerResponse> answers = new ArrayList<>();
 
-private final String PROMPT_QUESTION = "What is the question?";
+private String questionType;
+private String PROMPT_QUESTION = "Enter the prompt or ";
 private String[] mutlipleChoiceOptions = {"A","B","C","D","E","F","G"};
 
     public Question() {
         consoleInput = new ConsoleInput();
         consoleOutput = new ConsoleOutput();
         prompt = new StringPrompt();
-        getPromptFromUser();
 
     }
 
+    // ABSTRACT METHODS ///
+    public abstract void create();
 
-    private void getPromptFromUser() {
+    public abstract void display();
+    ///////////////////////////////
 
-        consoleOutput.display(PROMPT_QUESTION);
+
+    public void getPromptFromUser() {
+
+        consoleOutput.display((PROMPT_QUESTION + questionType));
         prompt.setPrompt(consoleInput.getInput());
     }
 
@@ -50,9 +56,13 @@ private String[] mutlipleChoiceOptions = {"A","B","C","D","E","F","G"};
         return mutlipleChoiceOptions;
     }
 
-    public abstract void create();
-
-    public abstract void display();
+    public String getQuestionType() {
 
 
+        return questionType;
+    }
+
+    public void setQuestionType(String questionType) {
+        this.questionType = questionType;
+    }
 }
