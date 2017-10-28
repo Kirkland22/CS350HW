@@ -38,10 +38,15 @@ public class Main {
                 case "3":
                     quit();
                     break;
+
+                default:
+                    start();
             }
 
         }
     private static void testMenu() {
+
+        Test test = new Test();
         consoleOutput.display("You picked Test");
     }
 
@@ -61,11 +66,13 @@ public class Main {
                     //consoleOutput.display(survey.getName());
                     break;
                 case "2":
-                    consoleOutput.display("Display - Not implemented yet");
+                    if(survey != null) {
+                        survey.display();
+                    }
+                    //consoleOutput.display("Display - Not implemented yet");
                     break;
                 case "3":
-                    //loadSurvey();
-                    consoleOutput.display("Load - Not implemented yet");
+                    survey = Survey.load();
                     break;
                 case "4":
                     if(survey != null) {
@@ -90,19 +97,7 @@ public class Main {
 
 
     private static void search(String fileExtension) {
-        File folder = new File("/Users/Kirkland/Desktop/");
 
-        // gets you the list of files at this folder
-        File[] listOfFiles = folder.listFiles();
-        Integer index = 1;
-        for(int i = 0; i < listOfFiles.length; i++){
-            String filename = listOfFiles[i].getName();
-            if(filename.endsWith(fileExtension)){
-                System.out.println(index + ")" + filename);
-                index++;
-
-            }
-        }
     }
 
     private static void quit() {

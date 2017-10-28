@@ -7,12 +7,6 @@ public class Test extends Survey {
 
 
 
-
-
-
-
-
-
     @Override
     public String getName() {
         return super.getName();
