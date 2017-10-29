@@ -40,7 +40,7 @@ public class Matching extends Question {
                 choice_Column1 = new StringChoiceResponse();
                 consoleOutput.display("(Left Column) Enter Choice #"+ (i + 1) + ":");
                 choice_Column1.setResponse(consoleInput.getInput());
-                addAnswer(choice_Column1);
+                addChoice(choice_Column1);
             }
 
             // Gets Choices for the Right Side of the Matching Questions
@@ -67,8 +67,40 @@ public class Matching extends Question {
     }
 
     @Override
-    public void getAnswer() {
+    public void setAnswer() {
+        display();
 
+        boolean isValidChoice;
+        consoleOutput.display("Select choices of right column that matches left column in descending order");
+
+        for (int i = 0; i < getNumOfChoices() ; i++) {
+
+            isValidChoice = false;
+            while (!isValidChoice) {
+                ChoiceResponse<String> tempAnswer;
+                try {
+                    Integer input = Integer.parseInt(consoleInput.getInput());
+
+                    if (input > getNumOfChoices())
+                        throw new IllegalArgumentException();
+
+                      tempAnswer = rightSideChoices.get(input-1);
+                      addAnswer(tempAnswer);
+                      isValidChoice = true;
+
+                }
+
+                catch (IllegalArgumentException e) {
+                    consoleOutput.display("Not a valid option");
+                }
+                catch (Exception e) {
+                    consoleOutput.display("Error");
+                }
+
+
+            }
+
+        }
     }
 
     @Override
@@ -80,6 +112,20 @@ public class Matching extends Question {
         for (int i = 0; i < leftSideChoices.size(); i++) {
 
             consoleOutput.displayONELINE(getMutlipleChoiceOptions()[i] + ") " + leftSideChoices.get(i).getResponse() + "\t" + (i+1) + ") " + rightSideChoices.get(i).getResponse() + "\n" );
+        }
+
+        consoleOutput.displayONELINE("\n");
+
+    }
+
+    @Override
+    public void displayCorrectAnswer() {
+        ArrayList<ChoiceResponse> correct = getCorrectAnswers();
+
+        consoleOutput.display("Correct Order:");
+        for (int i = 0; i < correct.size(); i++) {
+            String ans = (String) correct.get(i).getResponse();
+            consoleOutput.display(ans);
         }
 
         consoleOutput.displayONELINE("\n");

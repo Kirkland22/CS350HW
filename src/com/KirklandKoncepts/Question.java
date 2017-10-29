@@ -48,7 +48,7 @@ private String[] mutlipleChoiceOptions = {"A","B","C","D","E","F","G","H","I","J
 
             for (int i = 0; i < numOfChoices; i++) {
                 choice = new StringChoiceResponse();
-                consoleOutput.display("Enter Answer #"+ (i + 1) + ":");
+                consoleOutput.display("Enter Choice #"+ (i + 1) + ":");
                 choice.setResponse(consoleInput.getInput());
                 addChoice(choice);
             }
@@ -69,7 +69,8 @@ private String[] mutlipleChoiceOptions = {"A","B","C","D","E","F","G","H","I","J
 
     // ABSTRACT METHOD ///
     public abstract void display();
-    public abstract void getAnswer();
+    public abstract void setAnswer();
+    public abstract void displayCorrectAnswer();
     ///////////////////////////////
 
 
@@ -113,6 +114,10 @@ private String[] mutlipleChoiceOptions = {"A","B","C","D","E","F","G","H","I","J
         return numOfChoices;
     }
 
+    public int getNumOfCorrectAnswers() {
+        return numOfCorrectAnswers;
+    }
+
     public ArrayList<ChoiceResponse> getCorrectAnswers() {
         return correctAnswers;
     }
@@ -123,7 +128,9 @@ private String[] mutlipleChoiceOptions = {"A","B","C","D","E","F","G","H","I","J
         this.questionType = questionType;
     }
 
-
+    public void setNumOfCorrectAnswers(int numOfCorrectAnswers) {
+        this.numOfCorrectAnswers = numOfCorrectAnswers;
+    }
 
     public void setNumOfChoices(int numOfChoices) {
         this.numOfChoices = numOfChoices;

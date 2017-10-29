@@ -12,9 +12,13 @@ public class Ranking extends Question {
         setQuestionType("Ranking");
     }
 
+    @Override
+    public void displayCorrectAnswer() {
+
+    }
 
     @Override
-    public void getAnswer() {
+    public void setAnswer() {
 
     }
 

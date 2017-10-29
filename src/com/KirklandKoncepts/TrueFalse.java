@@ -15,15 +15,20 @@ public class TrueFalse extends MultipleChoice {
     public void create() {
         getPromptFromUser();
 
-        ChoiceResponse<String> trueAnswer = new StringChoiceResponse();
-        ChoiceResponse<String> falseAnswer = new StringChoiceResponse();
+        ChoiceResponse<String> trueChoice = new StringChoiceResponse();
+        ChoiceResponse<String> falseChoice = new StringChoiceResponse();
 
-        trueAnswer.setResponse("True");
-        falseAnswer.setResponse("False");
-        addAnswer(trueAnswer);
-        addAnswer(falseAnswer);
+        trueChoice.setResponse("True");
+        falseChoice.setResponse("False");
+        addChoice(trueChoice);
+        addChoice(falseChoice);
 
 
+    }
+
+    @Override
+    public void displayCorrectAnswer() {
+        super.displayCorrectAnswer();
     }
 
     @Override

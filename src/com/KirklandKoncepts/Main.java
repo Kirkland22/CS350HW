@@ -13,7 +13,7 @@ public class Main {
 
     private static String[] generalMenu = {"\nMenu 1:","1) Survey","2) Test","3) Quit"};
     private static String[] surveyMenu2 = {"\nSurvey Menu 2:","1) Create a new Survey","2) Display a Survey","3) Load a Survey","4) Save a Survey","5) Quit"};
-
+    private static String[] testMenu2 = {"\nTest Menu 2:","1) Create a new Test","2) Display a Test","3) Load a Test","4) Save a Test","5) Quit"};
 
     public static void main(String[] args) {
 
@@ -46,8 +46,40 @@ public class Main {
         }
     private static void testMenu() {
 
-        consoleOutput.display("You picked Test");
+        Test test = null;
+
+        while (true) {
+            consoleOutput.display(testMenu2);
+            String choice = consoleInput.getInput();
+
+            switch (choice) {
+                case "1":
+                    test = new Test();
+                    test.create();
+                    break;
+                case "2":
+                    if(test != null) {
+                        test.display();
+                    }
+                    break;
+                case "3":
+                    test = Test.load();
+                    break;
+                case "4":
+                    if(test != null) {
+                        test.save();
+                    }
+                    else
+                        consoleOutput.display("No Test To Save");
+                    break;
+                case "5":
+                    quit();
+                    break;
+            }
+        }
     }
+
+
 
 
     private static void surveyMenu() {

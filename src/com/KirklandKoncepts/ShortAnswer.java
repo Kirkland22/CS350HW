@@ -10,7 +10,7 @@ public class ShortAnswer extends Question {
     }
 
     @Override
-    public void getAnswer() {
+    public void setAnswer() {
 
     }
 
@@ -25,6 +25,8 @@ public class ShortAnswer extends Question {
 
     }
 
+    @Override
+    public void displayCorrectAnswer() {
 
-
+    }
 }

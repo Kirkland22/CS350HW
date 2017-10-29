@@ -1,22 +1,23 @@
 package com.KirklandKoncepts;
 
+
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * Created by Kirkland on 10/21/17.
  */
 public class Survey implements Serializable {
 
-    private static ConsoleInput consoleInput = new ConsoleInput();
-    private static ConsoleOutput consoleOutput = new ConsoleOutput();
-    private  String surveyNamePrompt = "Please Enter Survey/Test Name:";
+    protected static ConsoleInput consoleInput = new ConsoleInput();
+    protected static ConsoleOutput consoleOutput = new ConsoleOutput();
+    protected   String surveyNamePrompt = "Please Enter Survey/Test Name:";
     private  static String pickSurveyToLoad = "Which survey would you like to load?";
-    private  String[] addQuestionPrompt = {"1) Add a new T/F question","2) Add a new multiple choice question","3) Add a new short answer question","4) Add a new essay question","5) Add a new ranking question" , "6) Add a new matching question "};
+    protected   String[] addQuestionPrompt = {"1) Add a new T/F question","2) Add a new multiple choice question","3) Add a new short answer question","4) Add a new essay question","5) Add a new ranking question" , "6) Add a new matching question "};
 
     private String name;
-    private List<Question> questions = new ArrayList<>();
+    protected ArrayList<Question> questions = new ArrayList<>();
 
     public Survey() {
         consoleOutput.display(surveyNamePrompt);
@@ -24,23 +25,7 @@ public class Survey implements Serializable {
     }
 
 
-
-    public void save() {
-
-        try {
-            FileOutputStream fileOut = new FileOutputStream("/Users/Kirkland/Desktop/survey/" + getName());
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(this);
-            out.close();
-            fileOut.close();
-            System.out.println("Survey is saved");
-        }catch(IOException i) {
-            i.printStackTrace();
-        }
-
-    }
-
-
+    // Static Methods
     public static Survey load() {
 
         Survey survey = null;
@@ -62,8 +47,6 @@ public class Survey implements Serializable {
                 index++;
             }
 
-            //consoleOutput.display(pickSurveyToLoad);
-
             while (!pickedValidChoice) {
                 try {
                     consoleOutput.display(pickSurveyToLoad);
@@ -84,7 +67,7 @@ public class Survey implements Serializable {
                 } catch (IOException i) {
                     consoleOutput.display("IOException");
                 } catch (ClassNotFoundException c) {
-                    consoleOutput.display("Employee class not found");
+                    consoleOutput.display("Survey class not found");
                 }
             }
 
@@ -93,6 +76,21 @@ public class Survey implements Serializable {
         return survey;
     }
 
+
+    public void save() {
+
+        try {
+            FileOutputStream fileOut = new FileOutputStream("/Users/Kirkland/Desktop/survey/" + getName());
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(this);
+            out.close();
+            fileOut.close();
+            System.out.println("Survey is saved");
+        }catch(IOException i) {
+            i.printStackTrace();
+        }
+
+    }
 
     public void create() {
 
@@ -107,44 +105,30 @@ public class Survey implements Serializable {
 
                 case "1":
                     question = new TrueFalse();
-                    question.create();
-                    questions.add( question );
                     break;
                 case "2":
                     question = new MultipleChoice();
-                    question.create();
-                    questions.add( question );
                     break;
                 case "3":
                     question = new ShortAnswer();
-                    question.create();
-                    questions.add( question );
                     break;
                 case "4":
                     question = new Essay();
-                    question.create();
-                    questions.add( question );
                     break;
                 case "5":
                     question = new Ranking();
-                    question.create();
-                    questions.add( question );
                     break;
                 case "6":
                     question = new Matching();
-                    question.create();
-                    questions.add( question );
                     break;
                 case "q" :
+                    question = null;
                     isAddingQuestions = false;
             }
+            if (question != null)
+                createSurveyQuestion(question);
         }
 
-    }
-
-
-    protected void setName(String name) {
-        this.name = name;
     }
 
     public void display() {
@@ -156,7 +140,30 @@ public class Survey implements Serializable {
     }
 
 
+    private void createSurveyQuestion(Question question) {
+        question.create();
+        questions.add( question );
+    }
+
+
+    // Getters
     protected String getName() {
         return name;
     }
+
+    public ArrayList<Question> getQuestions() {
+        return questions;
+    }
+
+    //////////////////////////////////
+
+    // Setters
+    protected void setName(String name) {
+        this.name = name;
+    }
+
+
+
+
+
 }
