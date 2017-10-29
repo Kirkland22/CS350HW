@@ -6,14 +6,26 @@ package com.KirklandKoncepts;
 public class Essay extends Question {
 
 
+    public Essay() {
+        setQuestionType("Essay");
+    }
+
+
+    @Override
+    public void getAnswer() {
+
+    }
+
     @Override
     public void display() {
-
+        getPrompt().display();
     }
 
 
     @Override
     public void create() {
+        getPromptFromUser();
 
     }
+
 }

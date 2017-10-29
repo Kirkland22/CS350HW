@@ -62,13 +62,11 @@ public class Main {
                 case "1":
                     survey = new Survey();
                     survey.create();
-                    //consoleOutput.display(survey.getName());
                     break;
                 case "2":
                     if(survey != null) {
                         survey.display();
                     }
-                    //consoleOutput.display("Display - Not implemented yet");
                     break;
                 case "3":
                     survey = Survey.load();
@@ -87,17 +85,7 @@ public class Main {
         }
     }
 
-    private static Survey loadSurvey() {
 
-        search(".survey");
-
-        return null;
-    }
-
-
-    private static void search(String fileExtension) {
-
-    }
 
     private static void quit() {
         System.exit(0);

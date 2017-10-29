@@ -3,7 +3,7 @@ package com.KirklandKoncepts;
 /**
  * Created by Kirkland on 10/27/17.
  */
-public class StringAnswerResponse extends AnswerResponse {
+public class StringChoiceResponse extends ChoiceResponse {
 
     private boolean correctAnswer = false;
     @Override

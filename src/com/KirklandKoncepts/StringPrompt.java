@@ -8,7 +8,7 @@ public class StringPrompt extends Prompt {
     @Override
     public void display() {
         String string = (String) getPrompt();
-        System.out.println(string);
+        System.out.println(string + "\n");
     }
 
     @Override

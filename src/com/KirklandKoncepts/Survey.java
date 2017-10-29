@@ -13,7 +13,7 @@ public class Survey implements Serializable {
     private static ConsoleOutput consoleOutput = new ConsoleOutput();
     private  String surveyNamePrompt = "Please Enter Survey/Test Name:";
     private  static String pickSurveyToLoad = "Which survey would you like to load?";
-    private  String[] addQuestionPrompt = {"1) Add a new T/F question","2) Add a new multiple choice question","3) Add a new short answer question","4) Add a new essay question","5) Add a new ranking question" , "6) Add a new multiple choice question "};
+    private  String[] addQuestionPrompt = {"1) Add a new T/F question","2) Add a new multiple choice question","3) Add a new short answer question","4) Add a new essay question","5) Add a new ranking question" , "6) Add a new matching question "};
 
     private String name;
     private List<Question> questions = new ArrayList<>();
@@ -109,31 +109,29 @@ public class Survey implements Serializable {
                     question = new TrueFalse();
                     question.create();
                     questions.add( question );
-
                     break;
-
                 case "2":
                     question = new MultipleChoice();
                     question.create();
                     questions.add( question );
                     break;
                 case "3":
-                    question = new MultipleChoice();
+                    question = new ShortAnswer();
                     question.create();
                     questions.add( question );
                     break;
                 case "4":
-                    question = new MultipleChoice();
+                    question = new Essay();
                     question.create();
                     questions.add( question );
                     break;
                 case "5":
-                    question = new MultipleChoice();
+                    question = new Ranking();
                     question.create();
                     questions.add( question );
                     break;
                 case "6":
-                    question = new MultipleChoice();
+                    question = new Matching();
                     question.create();
                     questions.add( question );
                     break;

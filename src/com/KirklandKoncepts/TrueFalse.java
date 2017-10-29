@@ -15,8 +15,8 @@ public class TrueFalse extends MultipleChoice {
     public void create() {
         getPromptFromUser();
 
-        AnswerResponse<String> trueAnswer = new StringAnswerResponse();
-        AnswerResponse<String> falseAnswer = new StringAnswerResponse();
+        ChoiceResponse<String> trueAnswer = new StringChoiceResponse();
+        ChoiceResponse<String> falseAnswer = new StringChoiceResponse();
 
         trueAnswer.setResponse("True");
         falseAnswer.setResponse("False");

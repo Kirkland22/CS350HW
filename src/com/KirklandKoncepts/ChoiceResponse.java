@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Kirkland on 10/27/17.
  */
-public abstract class AnswerResponse<T> implements Serializable {
+public abstract class ChoiceResponse<T> implements Serializable {
 
     private T response;
 
