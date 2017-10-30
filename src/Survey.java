@@ -1,6 +1,3 @@
-package com.KirklandKoncepts;
-
-
 import java.io.*;
 import java.util.ArrayList;
 
@@ -14,7 +11,7 @@ public class Survey implements Serializable {
     protected static ConsoleOutput consoleOutput = new ConsoleOutput();
     protected   String surveyNamePrompt = "Please Enter Survey/Test Name:";
     private  static String pickSurveyToLoad = "Which survey would you like to load?";
-    protected   String[] addQuestionPrompt = {"1) Add a new T/F question","2) Add a new multiple choice question","3) Add a new short answer question","4) Add a new essay question","5) Add a new ranking question" , "6) Add a new matching question "};
+    protected   String[] addQuestionPrompt = {"1) Add a new T/F question","2) Add a new multiple choice question","3) Add a new short answer question","4) Add a new essay question","5) Add a new ranking question" , "6) Add a new matching question " , "7) Quit"};
 
     private String name;
     protected ArrayList<Question> questions = new ArrayList<>();
@@ -121,9 +118,13 @@ public class Survey implements Serializable {
                 case "6":
                     question = new Matching();
                     break;
-                case "q" :
+                case "7":
                     question = null;
                     isAddingQuestions = false;
+                    break;
+                default:
+                    //Nothing Ask again
+                    break;
             }
             if (question != null)
                 createSurveyQuestion(question);

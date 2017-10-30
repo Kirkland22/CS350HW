@@ -1,5 +1,3 @@
-package com.KirklandKoncepts;
-
 import java.util.ArrayList;
 
 /**

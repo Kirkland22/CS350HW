@@ -1,7 +1,3 @@
-package com.KirklandKoncepts;
-
-import java.util.List;
-
 /**
  * Created by Kirkland on 10/21/17.
  */

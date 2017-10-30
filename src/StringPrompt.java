@@ -1,5 +1,3 @@
-package com.KirklandKoncepts;
-
 /**
  * Created by Kirkland on 10/27/17.
  */

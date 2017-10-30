@@ -1,7 +1,4 @@
-package com.KirklandKoncepts;
-
 import java.io.*;
-import java.util.ArrayList;
 
 /**
  * Created by Kirkland on 10/21/17.
@@ -72,9 +69,10 @@ public class Test extends Survey {
     public void create() {
 
         boolean isAddingQuestions = true;
-        Question question =  null;
+        Question question;
 
         while (isAddingQuestions) {
+            question = null;
             consoleOutput.display(addQuestionPrompt);
             String choice = consoleInput.getInput();
 
@@ -98,7 +96,7 @@ public class Test extends Survey {
                 case "6":
                     question = new Matching();
                     break;
-                case "q" :
+                case "7" :
                     question = null;
                     isAddingQuestions = false;
             }

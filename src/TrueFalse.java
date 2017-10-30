@@ -1,5 +1,3 @@
-package com.KirklandKoncepts;
-
 /**
  * Created by Kirkland on 10/28/17.
  */
@@ -21,7 +19,7 @@ public class TrueFalse extends MultipleChoice {
             String input = consoleInput.getInput();
             if ( (input.equalsIgnoreCase("a") || input.equalsIgnoreCase("b")) ) {
 
-                answer.setResponse(input);
+                answer.setResponse(input.toUpperCase());
                 addAnswer(answer);
             }
 

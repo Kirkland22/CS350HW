@@ -1,6 +1,3 @@
-package com.KirklandKoncepts;
-
-
 import java.io.Serializable;
 
 /**

@@ -1,5 +1,3 @@
-package com.KirklandKoncepts;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -38,6 +36,7 @@ private ArrayList<String> multipleChoiceOptions = new ArrayList<>();
     public void create() {
         getPromptFromUser();
         getChoices();
+
     }
 
 

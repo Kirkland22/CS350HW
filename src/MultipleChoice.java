@@ -1,5 +1,3 @@
-package com.KirklandKoncepts;
-
 import java.util.ArrayList;
 
 /**
@@ -13,11 +11,13 @@ public class MultipleChoice extends Question {
         setQuestionType("Multiple Choice");
     }
 
-
+    // Gets the Correct Answers for MC
     @Override
     public void setAnswer() {
 
-        ChoiceResponse<String> answers;
+        String input = null;
+        ChoiceResponse<String> answers = null;
+        ArrayList<String> choices = new ArrayList<>();
         display();
         consoleOutput.display("Enter Number of Correct Answers:");
 
@@ -30,17 +30,35 @@ public class MultipleChoice extends Question {
 
             setNumOfCorrectAnswers(inputNum);
 
-            // TODO: 10/29/17 FIX THE SET ANSWER
-            for (int i = 0; i < getNumOfCorrectAnswers() ; i++) {
-                answers = new StringChoiceResponse();
-                consoleOutput.display("Enter Answer #"+ (i + 1) + ":");
-                answers.setResponse(consoleInput.getInput());
-                addAnswer(answers);
+            for (int i = 0; i < getNumOfCorrectAnswers(); i++) {
+
+                choices.add(getMultipleChoiceOptions().get(i));
 
             }
 
-        }
+            // Get Correct Answers
+            for (int i = 0; i < getNumOfCorrectAnswers() ; i++) {
+                boolean isNotValidAnswer = true;
+                answers = new StringChoiceResponse();
+                consoleOutput.display("Enter Answer #" + (i + 1) + ":");
+                input = consoleInput.getInput().toUpperCase();
 
+                    if (!choices.contains(input))
+                        throw new IllegalStateException();
+
+                answers.setResponse(input);
+                addAnswer(answers);
+                }
+
+
+
+            }
+
+
+        catch (IllegalStateException e) {
+            consoleOutput.display("Not a Valid Answer");
+            setAnswer();
+        }
         catch (IllegalArgumentException e) {
             consoleOutput.display("Can Not Have More Correct Answers Than Choices");
             setAnswer();
@@ -63,3 +81,5 @@ public class MultipleChoice extends Question {
         consoleOutput.displayONELINE("\n");
     }
 }
+
+
