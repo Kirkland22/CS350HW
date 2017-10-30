@@ -1,7 +1,5 @@
 package com.KirklandKoncepts;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
-
 import java.util.ArrayList;
 
 /**
@@ -15,10 +13,6 @@ public class MultipleChoice extends Question {
         setQuestionType("Multiple Choice");
     }
 
-    @Override
-    public void displayCorrectAnswer() {
-
-    }
 
     @Override
     public void setAnswer() {
@@ -40,7 +34,9 @@ public class MultipleChoice extends Question {
             for (int i = 0; i < getNumOfCorrectAnswers() ; i++) {
                 answers = new StringChoiceResponse();
                 consoleOutput.display("Enter Answer #"+ (i + 1) + ":");
-                consoleInput.getInput();
+                answers.setResponse(consoleInput.getInput());
+                addAnswer(answers);
+
             }
 
         }
@@ -57,10 +53,11 @@ public class MultipleChoice extends Question {
     public void display() {
 
         ArrayList<ChoiceResponse> leftSideChoices = getChoiceResponses();
+
         getPrompt().display();
         for (int i = 0; i < leftSideChoices.size(); i++) {
 
-            consoleOutput.displayONELINE(getMutlipleChoiceOptions()[i] + ") " + leftSideChoices.get(i).getResponse() + "\n");
+            consoleOutput.displayONELINE(getMultipleChoiceOptions().get(i) + ") " + leftSideChoices.get(i).getResponse() + "\n");
         }
 
         consoleOutput.displayONELINE("\n");

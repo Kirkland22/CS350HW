@@ -10,6 +10,31 @@ public class TrueFalse extends MultipleChoice {
         setQuestionType("True/False");
     }
 
+    @Override
+    public void setAnswer() {
+        ChoiceResponse<String> answer;
+        display();
+        consoleOutput.display("Enter The Correct Answer (A or B):");
+
+        try {
+            answer = new StringChoiceResponse();
+            String input = consoleInput.getInput();
+            if ( (input.equalsIgnoreCase("a") || input.equalsIgnoreCase("b")) ) {
+
+                answer.setResponse(input);
+                addAnswer(answer);
+            }
+
+            else
+                throw new IllegalArgumentException();
+
+        } catch (IllegalArgumentException e) {
+            consoleOutput.display("Please choice A or B");
+            setAnswer();
+
+
+        }
+    }
 
     @Override
     public void create() {

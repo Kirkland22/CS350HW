@@ -13,12 +13,9 @@ public class Essay extends Question {
 
     @Override
     public void setAnswer() {
-    }
-
-    @Override
-    public void displayCorrectAnswer() {
 
     }
+
 
     @Override
     public void display() {

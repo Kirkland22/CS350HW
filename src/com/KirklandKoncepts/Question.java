@@ -19,12 +19,18 @@ private int numOfCorrectAnswers;
 private int numOfChoices;
 private String questionType;
 private String PROMPT_QUESTION = "Enter the prompt or ";
-private String[] mutlipleChoiceOptions = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
+private String[] strings = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
+private ArrayList<String> multipleChoiceOptions = new ArrayList<>();
+
 
     public Question() {
         consoleInput = new ConsoleInput();
         consoleOutput = new ConsoleOutput();
         prompt = new StringPrompt();
+        for (int i = 0; i < strings.length ; i++) {
+
+            multipleChoiceOptions.add(strings[i]);
+        }
 
     }
 
@@ -70,8 +76,22 @@ private String[] mutlipleChoiceOptions = {"A","B","C","D","E","F","G","H","I","J
     // ABSTRACT METHOD ///
     public abstract void display();
     public abstract void setAnswer();
-    public abstract void displayCorrectAnswer();
     ///////////////////////////////
+
+
+    public void displayCorrectAnswer() {
+
+        ArrayList<ChoiceResponse> correct = getCorrectAnswers();
+
+        consoleOutput.display("Correct Answer(s):");
+        for (int i = 0; i < correct.size(); i++) {
+            String ans = (String) correct.get(i).getResponse();
+            consoleOutput.display(ans);
+        }
+
+        consoleOutput.displayONELINE("\n");
+    }
+
 
 
     public void getPromptFromUser() {
@@ -100,8 +120,8 @@ private String[] mutlipleChoiceOptions = {"A","B","C","D","E","F","G","H","I","J
         return prompt;
     }
 
-    public String[] getMutlipleChoiceOptions() {
-        return mutlipleChoiceOptions;
+    public ArrayList<String> getMultipleChoiceOptions() {
+        return multipleChoiceOptions;
     }
 
     public String getQuestionType() {

@@ -71,18 +71,20 @@ public class Matching extends Question {
         display();
 
         boolean isValidChoice;
-        consoleOutput.display("Select choices of right column that matches left column in descending order");
+        consoleOutput.display("Select choices of right column that matches left column in descending order:");
 
         for (int i = 0; i < getNumOfChoices() ; i++) {
 
             isValidChoice = false;
             while (!isValidChoice) {
                 ChoiceResponse<String> tempAnswer;
+                consoleOutput.display("What number matches " + getMultipleChoiceOptions().get(i));
                 try {
                     Integer input = Integer.parseInt(consoleInput.getInput());
 
-                    if (input > getNumOfChoices())
+                    if (input > getNumOfChoices()) {
                         throw new IllegalArgumentException();
+                    }
 
                       tempAnswer = rightSideChoices.get(input-1);
                       addAnswer(tempAnswer);
@@ -111,26 +113,13 @@ public class Matching extends Question {
 
         for (int i = 0; i < leftSideChoices.size(); i++) {
 
-            consoleOutput.displayONELINE(getMutlipleChoiceOptions()[i] + ") " + leftSideChoices.get(i).getResponse() + "\t" + (i+1) + ") " + rightSideChoices.get(i).getResponse() + "\n" );
+            consoleOutput.displayONELINE(getMultipleChoiceOptions().get(i) + ") " + leftSideChoices.get(i).getResponse() + "\t" + (i+1) + ") " + rightSideChoices.get(i).getResponse() + "\n" );
         }
 
         consoleOutput.displayONELINE("\n");
 
     }
 
-    @Override
-    public void displayCorrectAnswer() {
-        ArrayList<ChoiceResponse> correct = getCorrectAnswers();
-
-        consoleOutput.display("Correct Order:");
-        for (int i = 0; i < correct.size(); i++) {
-            String ans = (String) correct.get(i).getResponse();
-            consoleOutput.display(ans);
-        }
-
-        consoleOutput.displayONELINE("\n");
-
-    }
 
 
     private void addSecondColumn(ChoiceResponse choiceResponse) {

@@ -5,12 +5,19 @@ package com.KirklandKoncepts;
  */
 public class ShortAnswer extends Question {
 
-    public ShortAnswer () {
+    public ShortAnswer() {
         setQuestionType("Short Answer");
     }
 
     @Override
     public void setAnswer() {
+
+        display();
+        consoleOutput.display("Enter the answer for the Short Answer");
+        ChoiceResponse<String> answer;
+        answer = new StringChoiceResponse();
+        answer.setResponse(consoleInput.getInput());
+        addAnswer(answer);
 
     }
 
@@ -25,8 +32,4 @@ public class ShortAnswer extends Question {
 
     }
 
-    @Override
-    public void displayCorrectAnswer() {
-
-    }
 }
