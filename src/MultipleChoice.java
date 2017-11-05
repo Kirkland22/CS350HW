@@ -25,12 +25,13 @@ public class MultipleChoice extends Question {
 
 
             int inputNum = Integer.parseInt(consoleInput.getInput());
+
             if(inputNum > getNumOfChoices())
                 throw new IllegalArgumentException();
 
             setNumOfCorrectAnswers(inputNum);
 
-            for (int i = 0; i < getNumOfCorrectAnswers(); i++) {
+            for (int i = 0; i < getNumOfChoices(); i++) {
 
                 choices.add(getMultipleChoiceOptions().get(i));
 

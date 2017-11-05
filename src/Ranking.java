@@ -22,7 +22,7 @@ public class Ranking extends Question {
 
 
         try {
-            for (int i = 0; i < getNumOfCorrectAnswers(); i++) {
+            for (int i = 0; i < getNumOfChoices(); i++) {
                 choices.add(getMultipleChoiceOptions().get(i));
 
             }

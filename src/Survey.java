@@ -29,7 +29,7 @@ public class Survey implements Serializable {
         boolean pickedValidChoice = false;
         String choice;
 
-        File folder = new File("/Users/Kirkland/Desktop/survey");
+        File folder = new File("survey");
 
         // gets you the list of files at this folder
         File[] listOfFiles = folder.listFiles();
@@ -77,7 +77,8 @@ public class Survey implements Serializable {
     public void save() {
 
         try {
-            FileOutputStream fileOut = new FileOutputStream("/Users/Kirkland/Desktop/survey/" + getName());
+
+            FileOutputStream fileOut = new FileOutputStream("survey/" + getName());
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(this);
             out.close();

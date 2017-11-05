@@ -14,14 +14,14 @@ public class Test extends Survey {
 
 
 
-    // Static Methods
+    // Static Method
     public static Test load() {
 
         Test test = null;
         boolean pickedValidChoice = false;
         String choice;
 
-        File folder = new File("/Users/Kirkland/Desktop/test");
+        File folder = new File("test");
 
         // gets you the list of files at this folder
         File[] listOfFiles = folder.listFiles();
@@ -122,7 +122,7 @@ public class Test extends Survey {
     public void save() {
 
         try {
-            FileOutputStream fileOut = new FileOutputStream("/Users/Kirkland/Desktop/test/" + getName());
+            FileOutputStream fileOut = new FileOutputStream("test/" + getName());
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(this);
             out.close();
