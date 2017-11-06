@@ -6,6 +6,9 @@ import java.io.*;
 public class Test extends Survey {
 
     private  static String pickSurveyToLoad = "Which Test would you like to load?";
+    private static String type = "Test";
+    private static String folderName = "test";
+
 
     public Test() {
         super();
@@ -21,7 +24,7 @@ public class Test extends Survey {
         boolean pickedValidChoice = false;
         String choice;
 
-        File folder = new File("test");
+        File folder = new File( getFolderName() );
 
         // gets you the list of files at this folder
         File[] listOfFiles = folder.listFiles();
@@ -45,7 +48,7 @@ public class Test extends Survey {
 
                     FileInputStream fileIn = new FileInputStream(file.getAbsolutePath());
                     ObjectInputStream in = new ObjectInputStream(fileIn);
-                    test = (Test)in.readObject();
+                    test = (Test) in.readObject();
                     in.close();
                     fileIn.close();
 
@@ -65,49 +68,6 @@ public class Test extends Survey {
         return test;
     }
 
-    @Override
-    public void create() {
-
-        boolean isAddingQuestions = true;
-        Question question;
-
-        while (isAddingQuestions) {
-            question = null;
-            consoleOutput.display(addQuestionPrompt);
-            String choice = consoleInput.getInput();
-
-            switch (choice) {
-
-                case "1":
-                    question = new TrueFalse();
-                    break;
-                case "2":
-                    question = new MultipleChoice();
-                    break;
-                case "3":
-                    question = new ShortAnswer();
-                    break;
-                case "4":
-                    question = new Essay();
-                    break;
-                case "5":
-                    question = new Ranking();
-                    break;
-                case "6":
-                    question = new Matching();
-                    break;
-                case "7" :
-                    question = null;
-                    isAddingQuestions = false;
-            }
-
-            if (question != null)
-                createTestQuestion(question);
-        }
-
-
-
-    }
 
     @Override
     public void display() {
@@ -119,6 +79,7 @@ public class Test extends Survey {
         }
     }
 
+    @Override
     public void save() {
 
         try {
@@ -135,7 +96,19 @@ public class Test extends Survey {
     }
 
 
-    private void createTestQuestion(Question question) {
+
+    // Getters
+
+    public static String getType() {
+        return type;
+    }
+
+    public static String getFolderName() {
+        return folderName;
+    }
+
+    @Override
+    protected void createQuestion(Question question) {
         question.create();
         question.setAnswer();
         questions.add( question );

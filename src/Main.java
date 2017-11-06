@@ -4,7 +4,7 @@ public class Main {
     private static ConsoleOutput consoleOutput = new ConsoleOutput();
 
     private static String[] generalMenu = {"\nMenu 1:","1) Survey","2) Test","3) Quit"};
-    private static String[] surveyMenu2 = {"\nSurvey Menu 2:","1) Create a new Survey","2) Display a Survey","3) Load a Survey","4) Save a Survey","5) Quit"};
+    private static String[] surveyMenu2 = {"\nSurvey Menu 2:","1) Create a new Survey","2) Display a Survey","3) Load a Survey","4) Save a Survey","5) Modify an Existing Survey", "6) Quit"};
     private static String[] testMenu2 = {"\nTest Menu 2:","1) Create a new Test","2) Display a Test","3) Load a Test","4) Save a Test","5) Quit"};
 
     public static void main(String[] args) {
@@ -38,7 +38,7 @@ public class Main {
         }
     private static void testMenu() {
 
-        Test test = null;
+        Survey test = null;
 
         while (true) {
             consoleOutput.display(testMenu2);
@@ -70,10 +70,6 @@ public class Main {
             }
         }
     }
-
-
-
-
     private static void surveyMenu() {
 
         Survey survey = null;
@@ -103,14 +99,18 @@ public class Main {
                         consoleOutput.display("No Survey To Save");
                     break;
                 case "5":
-                    quit();
+
+                    if (survey == null) {
+                        survey = Survey.load();
+                    }
+                    survey.edit();
                     break;
+
+                case "6":
+                    quit();
             }
         }
     }
-
-
-
     private static void quit() {
         System.exit(0);
     }

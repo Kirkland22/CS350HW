@@ -7,4 +7,5 @@ public abstract class Input<T> implements Serializable{
 
     public abstract T getInput();
 
+
 }

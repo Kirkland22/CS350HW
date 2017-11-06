@@ -6,6 +6,7 @@ public class TrueFalse extends MultipleChoice {
 
     public TrueFalse() {
         setQuestionType("True/False");
+        setCanEditChoices(false);
     }
 
     @Override

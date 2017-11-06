@@ -107,7 +107,7 @@ public class Matching extends Question {
     public void display() {
 
         getPrompt().display();
-        ArrayList<ChoiceResponse> leftSideChoices = getChoiceResponses();
+        ArrayList<ChoiceResponse> leftSideChoices = getQuestionChoices();
 
         for (int i = 0; i < leftSideChoices.size(); i++) {
 

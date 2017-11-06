@@ -10,13 +10,17 @@ protected ConsoleInput consoleInput;
 protected ConsoleOutput consoleOutput;
 private Prompt prompt;
 
-private ArrayList<ChoiceResponse> choiceResponses = new ArrayList<>();
+private ArrayList<ChoiceResponse> questionChoices = new ArrayList<>();
 private ArrayList<ChoiceResponse> correctAnswers = new ArrayList<>();
 
 private int numOfCorrectAnswers;
 private int numOfChoices;
+private boolean canEditChoices = true;
 private String questionType;
 private String PROMPT_QUESTION = "Enter the prompt or ";
+private String EDIT_PROMPT_QUESTION = "Enter the new prompt";
+private String editing_prompt = "Which would you like to edit?";
+private String[] editing_Options = {"Prompt" , "Choices","Answer(s)"};
 private String[] strings = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
 private ArrayList<String> multipleChoiceOptions = new ArrayList<>();
 
@@ -71,12 +75,109 @@ private ArrayList<String> multipleChoiceOptions = new ArrayList<>();
         }
     }
 
+    public void edit() {
 
+        display();
+
+        int editing_index = 2;
+
+    // Gives options to edit Answers if they exist,(only for Test)
+    if (!correctAnswers.isEmpty())
+        editing_index = 3;
+
+    consoleOutput.display(editing_prompt);
+    for (int i = 0; i < editing_index ; i++) {
+            consoleOutput.display((i + 1)+") " + editing_Options[i]);
+        }
+
+
+        String choice = consoleInput.getInput();
+
+        switch (choice) {
+
+            case "1":
+                editPrompt();
+                break;
+            case "2":
+                editChoices();
+                break;
+            case "3":
+
+                if (correctAnswers.isEmpty()) {
+                    edit();
+                    break;
+                }
+                else {
+                    editAnswer();
+                    break;
+                }
+
+            default:
+                edit();
+                break;
+        }
+    }
+
+
+
+    protected void editPrompt() {
+        consoleOutput.display("Old Prompt: " + prompt.getPrompt());
+        consoleOutput.display(EDIT_PROMPT_QUESTION);
+        prompt.setPrompt(consoleInput.getInput());
+        consoleOutput.display("New Prompt: " + prompt.getPrompt());
+
+    }
+
+    protected void editChoices() {
+        ArrayList<ChoiceResponse> choices = getQuestionChoices();
+
+        if (canEditChoices) {
+
+            consoleOutput.display("Which choice would you like to edit?");
+            for (int i = 0; i < choices.size(); i++) {
+
+                consoleOutput.displayONELINE((i + 1) + ") ");
+                choices.get(i).display();
+
+            }
+
+            try {
+                Integer user_choice = consoleInput.getIntegerInput();
+                ChoiceResponse choice = choices.get(user_choice - 1);
+
+                consoleOutput.displayONELINE("Old Choice: ");
+                choice.display();
+
+                consoleOutput.display("Enter New Choice: ");
+                String newChoice = consoleInput.getInput();
+
+                choice.setResponse(newChoice);
+
+            } catch (NumberFormatException e) {
+                consoleOutput.display("Input a Number");
+                edit();
+            } catch (IndexOutOfBoundsException e) {
+                consoleOutput.display("Not a valid question choice");
+                edit();
+            }
+        }
+
+        else {
+            consoleOutput.display("Can not change choices for this question\n");
+        }
+
+    }
+
+    protected void editAnswer() {
+
+    }
     // ABSTRACT METHOD ///
     public abstract void display();
     public abstract void setAnswer();
     ///////////////////////////////
 
+
+    // Helper Methods
 
     public void displayCorrectAnswer() {
 
@@ -91,21 +192,19 @@ private ArrayList<String> multipleChoiceOptions = new ArrayList<>();
         consoleOutput.displayONELINE("\n");
     }
 
-
-
     public void getPromptFromUser() {
 
         consoleOutput.display((PROMPT_QUESTION + questionType + " Question"));
         prompt.setPrompt(consoleInput.getInput());
     }
 
-    public ArrayList<ChoiceResponse> getChoiceResponses() {
-        return choiceResponses;
+    public ArrayList<ChoiceResponse> getQuestionChoices() {
+        return questionChoices;
     }
 
     public void addChoice(ChoiceResponse choiceResponse) {
 
-        choiceResponses.add(choiceResponse);
+        questionChoices.add(choiceResponse);
 
     }
 
@@ -154,4 +253,6 @@ private ArrayList<String> multipleChoiceOptions = new ArrayList<>();
     public void setNumOfChoices(int numOfChoices) {
         this.numOfChoices = numOfChoices;
     }
+
+    public void setCanEditChoices(boolean canEditChoices) { this.canEditChoices = canEditChoices;}
 }

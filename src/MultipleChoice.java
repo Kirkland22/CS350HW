@@ -71,7 +71,7 @@ public class MultipleChoice extends Question {
     @Override
     public void display() {
 
-        ArrayList<ChoiceResponse> leftSideChoices = getChoiceResponses();
+        ArrayList<ChoiceResponse> leftSideChoices = getQuestionChoices();
 
         getPrompt().display();
         for (int i = 0; i < leftSideChoices.size(); i++) {

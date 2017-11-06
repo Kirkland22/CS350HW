@@ -16,4 +16,15 @@ public class ConsoleInput extends Input {
     }
 
 
+    public Integer getIntegerInput() throws NumberFormatException {
+
+        Integer integer = null;
+
+        integer = Integer.parseInt(getInput());
+
+        return integer;
+
+    }
+
+
 }
