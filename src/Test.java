@@ -95,7 +95,11 @@ public class Test extends Survey {
 
     }
 
-
+    // TODO: 11/5/17 Override the edit function for test 
+    @Override
+    protected void edit() {
+        super.edit();
+    }
 
     // Getters
 

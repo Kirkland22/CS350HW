@@ -154,7 +154,6 @@ public class Survey implements Serializable {
         questions.add( question );
     }
 
-
     protected void edit() {
 
         ArrayList<Question> questions = getQuestions();
@@ -215,7 +214,6 @@ public class Survey implements Serializable {
     public static String getType() {
         return type;
     }
-
 
     // Setters
     protected void setName(String name) {

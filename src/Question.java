@@ -170,6 +170,35 @@ private ArrayList<String> multipleChoiceOptions = new ArrayList<>();
 
     protected void editAnswer() {
 
+        ArrayList<ChoiceResponse> answers = getCorrectAnswers();
+
+        consoleOutput.display("Which answer would you like to edit?");
+        for (int i = 0; i < answers.size(); i++) {
+
+            consoleOutput.displayONELINE((i + 1) + ") ");
+            answers.get(i).display();
+
+        }
+
+        try {
+            Integer user_choice = consoleInput.getIntegerInput();
+            ChoiceResponse answer = answers.get(user_choice - 1);
+
+            consoleOutput.displayONELINE("Old Choice: ");
+            answer.display();
+
+            consoleOutput.display("Enter New Choice: ");
+            String newChoice = consoleInput.getInput();
+
+            answer.setResponse(newChoice);
+
+        } catch (NumberFormatException e) {
+            consoleOutput.display("Input a Number");
+            edit();
+        } catch (IndexOutOfBoundsException e) {
+            consoleOutput.display("Not a valid question answer");
+            edit();
+        }
     }
     // ABSTRACT METHOD ///
     public abstract void display();
