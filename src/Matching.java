@@ -111,14 +111,14 @@ public class Matching extends Question {
 
         for (int i = 0; i < leftSideChoices.size(); i++) {
 
-            consoleOutput.displayONELINE(getMultipleChoiceOptions().get(i) + ") " + leftSideChoices.get(i).getResponse() + "\t" + (i+1) + ") " + rightSideChoices.get(i).getResponse() + "\n" );
+            String columnOne = getMultipleChoiceOptions().get(i) + ") " + leftSideChoices.get(i).getResponse();
+            String columnTwo = (i+1) + ") " + rightSideChoices.get(i).getResponse();
+            consoleOutput.displayTwoColumn(columnOne,columnTwo);
         }
 
-        consoleOutput.displayONELINE("\n");
+        consoleOutput.displayOneLine("\n");
 
     }
-
-
 
     private void addSecondColumn(ChoiceResponse choiceResponse) {
         rightSideChoices.add(choiceResponse);

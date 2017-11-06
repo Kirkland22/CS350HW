@@ -5,7 +5,7 @@ public class Main {
 
     private static String[] generalMenu = {"\nMenu 1:","1) Survey","2) Test","3) Quit"};
     private static String[] surveyMenu2 = {"\nSurvey Menu 2:","1) Create a new Survey","2) Display a Survey","3) Load a Survey","4) Save a Survey","5) Modify an Existing Survey", "6) Quit"};
-    private static String[] testMenu2 = {"\nTest Menu 2:","1) Create a new Test","2) Display a Test","3) Load a Test","4) Save a Test","5) Quit"};
+    private static String[] testMenu2 = {"\nTest Menu 2:","1) Create a new Test","2) Display a Test","3) Load a Test","4) Save a Test","5) Modify an Existing Test", "6) Quit"};
 
     public static void main(String[] args) {
 
@@ -38,7 +38,7 @@ public class Main {
         }
     private static void testMenu() {
 
-        Survey test = null;
+        Test test = null;
 
         while (true) {
             consoleOutput.display(testMenu2);
@@ -65,8 +65,10 @@ public class Main {
                         consoleOutput.display("No Test To Save");
                     break;
                 case "5":
-                    quit();
-                    break;
+                    if (test == null) {
+                        test = test.load();
+                    }
+                    test.edit();
             }
         }
     }

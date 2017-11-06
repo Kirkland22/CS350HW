@@ -52,9 +52,9 @@ public class Ranking extends Question {
         ArrayList<ChoiceResponse> leftSideChoices = getQuestionChoices();
         getPrompt().display();
         for (int i = 0; i < leftSideChoices.size(); i++) {
-            consoleOutput.displayONELINE(getMultipleChoiceOptions().get(i) + ") " + leftSideChoices.get(i).getResponse() + "\n");
+            consoleOutput.displayOneLine(getMultipleChoiceOptions().get(i) + ") " + leftSideChoices.get(i).getResponse() + "\n");
         }
-        consoleOutput.displayONELINE("\n");
+        consoleOutput.displayOneLine("\n");
     }
 
 

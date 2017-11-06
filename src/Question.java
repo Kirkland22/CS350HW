@@ -128,6 +128,8 @@ private ArrayList<String> multipleChoiceOptions = new ArrayList<>();
 
     }
 
+
+    // TODO: 11/6/17 FIX editChoices for Questions other than MC/TF
     protected void editChoices() {
         ArrayList<ChoiceResponse> choices = getQuestionChoices();
 
@@ -136,7 +138,7 @@ private ArrayList<String> multipleChoiceOptions = new ArrayList<>();
             consoleOutput.display("Which choice would you like to edit?");
             for (int i = 0; i < choices.size(); i++) {
 
-                consoleOutput.displayONELINE((i + 1) + ") ");
+                consoleOutput.displayOneLine((i + 1) + ") ");
                 choices.get(i).display();
 
             }
@@ -145,7 +147,7 @@ private ArrayList<String> multipleChoiceOptions = new ArrayList<>();
                 Integer user_choice = consoleInput.getIntegerInput();
                 ChoiceResponse choice = choices.get(user_choice - 1);
 
-                consoleOutput.displayONELINE("Old Choice: ");
+                consoleOutput.displayOneLine("Old Choice: ");
                 choice.display();
 
                 consoleOutput.display("Enter New Choice: ");
@@ -168,29 +170,54 @@ private ArrayList<String> multipleChoiceOptions = new ArrayList<>();
 
     }
 
+    // TODO: 11/6/17 FIX editAnswer for Questions other than MC/TF
     protected void editAnswer() {
 
         ArrayList<ChoiceResponse> answers = getCorrectAnswers();
+        ArrayList<String> multipleChoicesOptions = new ArrayList<>();
 
         consoleOutput.display("Which answer would you like to edit?");
         for (int i = 0; i < answers.size(); i++) {
 
-            consoleOutput.displayONELINE((i + 1) + ") ");
+            consoleOutput.displayOneLine((i + 1) + ") ");
             answers.get(i).display();
 
         }
+
+        for (int i = 0; i < getNumOfChoices(); i++) {
+
+            multipleChoicesOptions.add(getMultipleChoiceOptions().get(i));
+
+        }
+
+        /*// Get Correct Answers
+        for (int i = 0; i < getNumOfCorrectAnswers() ; i++) {
+            boolean isNotValidAnswer = true;
+            answers = new StringChoiceResponse();
+            consoleOutput.display("Enter Answer #" + (i + 1) + ":");
+            input = consoleInput.getInput().toUpperCase();
+
+            if (!multipleChoices.contains(input))
+                throw new IllegalStateException();
+
+            answers.setResponse(input);
+            addAnswer(answers);
+        }*/
 
         try {
             Integer user_choice = consoleInput.getIntegerInput();
             ChoiceResponse answer = answers.get(user_choice - 1);
 
-            consoleOutput.displayONELINE("Old Choice: ");
+            consoleOutput.displayOneLine("Old Choice: ");
             answer.display();
 
             consoleOutput.display("Enter New Choice: ");
-            String newChoice = consoleInput.getInput();
+            String newAnswer = consoleInput.getInput().toUpperCase();
 
-            answer.setResponse(newChoice);
+            if (!multipleChoicesOptions.contains(newAnswer))
+                throw new IllegalStateException();
+
+            answer.setResponse(newAnswer);
 
         } catch (NumberFormatException e) {
             consoleOutput.display("Input a Number");
@@ -199,7 +226,13 @@ private ArrayList<String> multipleChoiceOptions = new ArrayList<>();
             consoleOutput.display("Not a valid question answer");
             edit();
         }
+        catch (IllegalStateException e) {
+            consoleOutput.display("Not a Valid Answer");
+            edit();
+        }
     }
+
+
     // ABSTRACT METHOD ///
     public abstract void display();
     public abstract void setAnswer();
@@ -218,7 +251,7 @@ private ArrayList<String> multipleChoiceOptions = new ArrayList<>();
             consoleOutput.display(ans);
         }
 
-        consoleOutput.displayONELINE("\n");
+        consoleOutput.displayOneLine("\n");
     }
 
     public void getPromptFromUser() {

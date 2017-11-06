@@ -17,7 +17,7 @@ public class MultipleChoice extends Question {
 
         String input = null;
         ChoiceResponse<String> answers = null;
-        ArrayList<String> choices = new ArrayList<>();
+        ArrayList<String> multipleChoices = new ArrayList<>();
         display();
         consoleOutput.display("Enter Number of Correct Answers:");
 
@@ -31,9 +31,10 @@ public class MultipleChoice extends Question {
 
             setNumOfCorrectAnswers(inputNum);
 
+            // Gets Multiple choice options for given question -- Returns A -> D if question has 4 options
             for (int i = 0; i < getNumOfChoices(); i++) {
 
-                choices.add(getMultipleChoiceOptions().get(i));
+                multipleChoices.add(getMultipleChoiceOptions().get(i));
 
             }
 
@@ -44,7 +45,7 @@ public class MultipleChoice extends Question {
                 consoleOutput.display("Enter Answer #" + (i + 1) + ":");
                 input = consoleInput.getInput().toUpperCase();
 
-                    if (!choices.contains(input))
+                    if (!multipleChoices.contains(input))
                         throw new IllegalStateException();
 
                 answers.setResponse(input);
@@ -76,10 +77,10 @@ public class MultipleChoice extends Question {
         getPrompt().display();
         for (int i = 0; i < leftSideChoices.size(); i++) {
 
-            consoleOutput.displayONELINE(getMultipleChoiceOptions().get(i) + ") " + leftSideChoices.get(i).getResponse() + "\n");
+            consoleOutput.displayOneLine(getMultipleChoiceOptions().get(i) + ") " + leftSideChoices.get(i).getResponse() + "\n");
         }
 
-        consoleOutput.displayONELINE("\n");
+        consoleOutput.displayOneLine("\n");
     }
 }
 

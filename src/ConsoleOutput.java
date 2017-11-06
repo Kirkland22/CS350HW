@@ -10,10 +10,6 @@ public class ConsoleOutput extends Output {
 
     }
 
-    public void displayONELINE(String string) {
-        System.out.print(string);
-    }
-
     @Override
     public void display(Object[] output) {
         String[] strings = (String[]) output;
@@ -24,4 +20,16 @@ public class ConsoleOutput extends Output {
         }
 
     }
+
+    public void displayOneLine(String string) {
+        System.out.print(string);
+    }
+
+    public void displayTwoColumn(String col1, String col2) {
+        System.out.printf("%-10s %-10s\n", col1, col2);
+    }
+
+
+
+
 }

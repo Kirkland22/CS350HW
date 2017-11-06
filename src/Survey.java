@@ -1,5 +1,3 @@
-import sun.awt.SubRegionShowable;
-
 import java.io.*;
 import java.util.ArrayList;
 
@@ -27,7 +25,7 @@ public class Survey implements Serializable {
     }
 
 
-    // Static Methods
+    // Static Method
     public static Survey load() {
 
         Survey survey = null;
@@ -77,6 +75,7 @@ public class Survey implements Serializable {
 
         return survey;
     }
+
 
 
     public void save() {
@@ -143,11 +142,10 @@ public class Survey implements Serializable {
         consoleOutput.display("--------------------------------");
         consoleOutput.display("");
         for (int i = 0; i < questions.size(); i++) {
-            consoleOutput.displayONELINE((i+1) + ") ");
+            consoleOutput.displayOneLine((i+1) + ") ");
             questions.get(i).display();
         }
     }
-
 
     protected void createQuestion(Question question) {
         question.create();
@@ -166,7 +164,7 @@ public class Survey implements Serializable {
 
                 consoleOutput.display(editMenuPrompt);
                 for (int i = 0; i < questions.size(); i++) {
-                    consoleOutput.displayONELINE(i + 1 + ") ");
+                    consoleOutput.displayOneLine(i + 1 + ") ");
                     questions.get(i).display();
                 }
 
@@ -185,13 +183,6 @@ public class Survey implements Serializable {
                     consoleOutput.display("Not a valid question choice");
                     edit();
                 }
-
-
-
-
-
-                
-                
                 
         }
            

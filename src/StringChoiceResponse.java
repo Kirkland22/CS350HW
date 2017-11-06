@@ -4,6 +4,7 @@
 public class StringChoiceResponse extends ChoiceResponse {
 
     private boolean correctAnswer = false;
+
     @Override
     public Object getResponse() {
         return super.getResponse();

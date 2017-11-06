@@ -73,7 +73,7 @@ public class Test extends Survey {
     public void display() {
         consoleOutput.display("");
         for (int i = 0; i < questions.size(); i++) {
-            consoleOutput.displayONELINE((i+1) + ") ");
+            consoleOutput.displayOneLine((i+1) + ") ");
             questions.get(i).display();
             questions.get(i).displayCorrectAnswer();
         }
@@ -96,10 +96,10 @@ public class Test extends Survey {
     }
 
     // TODO: 11/5/17 Override the edit function for test 
-    @Override
+    /*@Override
     protected void edit() {
         super.edit();
-    }
+    }*/
 
     // Getters
 
