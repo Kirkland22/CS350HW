@@ -6,30 +6,29 @@ import java.util.ArrayList;
  */
 public abstract class Question implements Serializable {
 
-protected ConsoleInput consoleInput;
-protected ConsoleOutput consoleOutput;
-private Prompt prompt;
+    protected static ConsoleInput consoleInput = new ConsoleInput();
+    protected static ConsoleOutput consoleOutput = new ConsoleOutput();
+    private Prompt prompt;
+    private ArrayList<String> multipleChoiceOptions;
 
-private ArrayList<ChoiceResponse> questionChoices = new ArrayList<>();
-private ArrayList<ChoiceResponse> correctAnswers = new ArrayList<>();
+    private ArrayList<ChoiceResponse> questionChoices = new ArrayList<>();
+    private ArrayList<ChoiceResponse> correctAnswers = new ArrayList<>();
+    public ArrayList<ChoiceResponse> userAnswers = new ArrayList<>();
 
-private int numOfCorrectAnswers;
-private int numOfChoices;
-private boolean canEditChoices = true;
-private String questionType;
-private String PROMPT_QUESTION = "Enter the prompt or ";
-private String EDIT_PROMPT_QUESTION = "Enter the new prompt";
-private String editing_prompt = "Which would you like to edit?";
-private String[] editing_Options = {"Prompt" , "Choices","Answer(s)"};
-private String[] strings = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
-private ArrayList<String> multipleChoiceOptions = new ArrayList<>();
+    private int numOfCorrectAnswers;
+    private int numOfChoices;
+    private String questionType;
+    private String PROMPT_QUESTION = "Enter the prompt or ";
+    private String EDIT_PROMPT_QUESTION = "Enter the new prompt";
+    private String editing_prompt = "Which would you like to edit?";
+    private String[] editing_Options = {"Prompt", "Choices", "Answer(s)"};
+    private String[] strings = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
 
 
     public Question() {
-        consoleInput = new ConsoleInput();
-        consoleOutput = new ConsoleOutput();
         prompt = new StringPrompt();
-        for (int i = 0; i < strings.length ; i++) {
+        multipleChoiceOptions = new ArrayList<>();
+        for (int i = 0; i < strings.length; i++) {
 
             multipleChoiceOptions.add(strings[i]);
         }
@@ -39,40 +38,8 @@ private ArrayList<String> multipleChoiceOptions = new ArrayList<>();
 
     public void create() {
         getPromptFromUser();
-        getChoices();
+        getChoicesFromUser();
 
-    }
-
-
-    private void getChoices() {
-
-        ChoiceResponse<String> choice;
-        // Get Number of options
-        try {
-            consoleOutput.display("How many " + questionType + " choices would you like?");
-            numOfChoices = Integer.parseInt(consoleInput.getInput());
-
-            if (numOfChoices < 2)
-                throw new IllegalArgumentException();
-
-            for (int i = 0; i < numOfChoices; i++) {
-                choice = new StringChoiceResponse();
-                consoleOutput.display("Enter Choice #"+ (i + 1) + ":");
-                choice.setResponse(consoleInput.getInput());
-                addChoice(choice);
-            }
-        } catch (NumberFormatException e) {
-            consoleOutput.display("Enter a number");
-            getChoices();
-        } catch (IllegalArgumentException e) {
-            consoleOutput.display("Must have more than one choice");
-            getChoices();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            getChoices();
-
-        }
     }
 
     public void edit() {
@@ -81,13 +48,13 @@ private ArrayList<String> multipleChoiceOptions = new ArrayList<>();
 
         int editing_index = 2;
 
-    // Gives options to edit Answers if they exist,(only for Test)
-    if (!correctAnswers.isEmpty())
-        editing_index = 3;
+        // Gives options to edit Answers if they exist,(only for Test)
+        if (!correctAnswers.isEmpty())
+            editing_index = 3;
 
-    consoleOutput.display(editing_prompt);
-    for (int i = 0; i < editing_index ; i++) {
-            consoleOutput.display((i + 1)+") " + editing_Options[i]);
+        consoleOutput.display(editing_prompt);
+        for (int i = 0; i < editing_index; i++) {
+            consoleOutput.display((i + 1) + ") " + editing_Options[i]);
         }
 
 
@@ -106,8 +73,7 @@ private ArrayList<String> multipleChoiceOptions = new ArrayList<>();
                 if (correctAnswers.isEmpty()) {
                     edit();
                     break;
-                }
-                else {
+                } else {
                     editAnswer();
                     break;
                 }
@@ -119,7 +85,6 @@ private ArrayList<String> multipleChoiceOptions = new ArrayList<>();
     }
 
 
-
     protected void editPrompt() {
         consoleOutput.display("Old Prompt: " + prompt.getPrompt());
         consoleOutput.display(EDIT_PROMPT_QUESTION);
@@ -128,49 +93,38 @@ private ArrayList<String> multipleChoiceOptions = new ArrayList<>();
 
     }
 
-
-    // TODO: 11/6/17 FIX editChoices for Questions other than MC/TF
     protected void editChoices() {
         ArrayList<ChoiceResponse> choices = getQuestionChoices();
 
-        if (canEditChoices) {
 
-            consoleOutput.display("Which choice would you like to edit?");
-            for (int i = 0; i < choices.size(); i++) {
+        consoleOutput.display("Which choice would you like to edit?");
+        for (int i = 0; i < choices.size(); i++) {
 
-                consoleOutput.displayOneLine((i + 1) + ") ");
-                choices.get(i).display();
-
-            }
-
-            try {
-                Integer user_choice = consoleInput.getIntegerInput();
-                ChoiceResponse choice = choices.get(user_choice - 1);
-
-                consoleOutput.displayOneLine("Old Choice: ");
-                choice.display();
-
-                consoleOutput.display("Enter New Choice: ");
-                String newChoice = consoleInput.getInput();
-
-                choice.setResponse(newChoice);
-
-            } catch (NumberFormatException e) {
-                consoleOutput.display("Input a Number");
-                edit();
-            } catch (IndexOutOfBoundsException e) {
-                consoleOutput.display("Not a valid question choice");
-                edit();
-            }
+            consoleOutput.displayOneLine((i + 1) + ") ");
+            choices.get(i).display();
         }
+        try {
+            Integer user_choice = consoleInput.getIntegerInput();
+            ChoiceResponse choice = choices.get(user_choice - 1);
 
-        else {
-            consoleOutput.display("Can not change choices for this question\n");
+            consoleOutput.displayOneLine("Old Choice: ");
+            choice.display();
+
+            consoleOutput.display("Enter New Choice: ");
+            String newChoice = consoleInput.getInput();
+
+            choice.setResponse(newChoice);
+
+        } catch (NumberFormatException e) {
+            consoleOutput.display("Input a Number");
+            editChoices();
+        } catch (IndexOutOfBoundsException e) {
+            consoleOutput.display("Not a valid question choice");
+            editChoices();
         }
-
     }
 
-    // TODO: 11/6/17 FIX editAnswer for Questions other than MC/TF
+
     protected void editAnswer() {
 
         ArrayList<ChoiceResponse> answers = getCorrectAnswers();
@@ -190,19 +144,6 @@ private ArrayList<String> multipleChoiceOptions = new ArrayList<>();
 
         }
 
-        /*// Get Correct Answers
-        for (int i = 0; i < getNumOfCorrectAnswers() ; i++) {
-            boolean isNotValidAnswer = true;
-            answers = new StringChoiceResponse();
-            consoleOutput.display("Enter Answer #" + (i + 1) + ":");
-            input = consoleInput.getInput().toUpperCase();
-
-            if (!multipleChoices.contains(input))
-                throw new IllegalStateException();
-
-            answers.setResponse(input);
-            addAnswer(answers);
-        }*/
 
         try {
             Integer user_choice = consoleInput.getIntegerInput();
@@ -233,13 +174,100 @@ private ArrayList<String> multipleChoiceOptions = new ArrayList<>();
     }
 
 
+   /* protected void TestTake() {
+
+        ArrayList<String> multipleChoices = new ArrayList<>();
+
+        clearUserAnswers();
+        display();
+
+        consoleOutput.display("Please give " + (getNumOfCorrectAnswers() + 1) + " choices: ");
+
+        try {
+
+            // Gets Multiple choice options for given question -- Returns A -> D if question has 4 options
+            for (int i = 0; i < getNumOfChoices(); i++) {
+                multipleChoices.add(getMultipleChoiceOptions().get(i));
+            }
+
+            // Get User Answers
+            for (int i = 0; i < getNumOfCorrectAnswers(); i++) {
+
+
+                ChoiceResponse<String> ans = null;
+                ans = new StringChoiceResponse();
+                consoleOutput.display("Enter Answer #" + (i + 1) + ":");
+                String input = consoleInput.getInput().toUpperCase();
+
+                if (!multipleChoices.contains(input))
+                    throw new IllegalStateException();
+                if (wasAnswerPicked(input))
+                    throw new SetSameAnswerTwiceException();
+
+                ans.setResponse(input);
+                userAnswers.add(ans);
+            }
+        }
+
+        catch (SetSameAnswerTwiceException e) {
+            consoleOutput.display("Multiple choice can only be used once");
+            TestTake();
+        }
+        catch (IllegalStateException e) {
+            consoleOutput.display("Not a Valid Answer");
+            TestTake();
+        }
+
+    }*/
+
+    protected void SurveyTake() {
+
+        ArrayList<String> multipleChoices = new ArrayList<>();
+        clearUserAnswers();
+        display();
+
+        try {
+
+            // Gets Multiple choice options for given question -- Returns A -> D if question has 4 options
+            for (int i = 0; i < getQuestionChoicesSize(); i++) {
+                multipleChoices.add(getMultipleChoiceOptions().get(i));
+            }
+
+                ChoiceResponse<String> ans = new StringChoiceResponse();
+                String input = consoleInput.getInput().toUpperCase();
+
+                if (!multipleChoices.contains(input))
+                    throw new IllegalStateException();
+
+                ans.setResponse(input);
+                userAnswers.add(ans);
+        }
+
+        catch (IllegalStateException e) {
+            consoleOutput.display("Not a Valid Answer");
+            SurveyTake();
+        }
+    }
+
     // ABSTRACT METHOD ///
     public abstract void display();
-    public abstract void setAnswer();
+
+    public abstract void setCorrectAnswers();
     ///////////////////////////////
 
 
     // Helper Methods
+    public boolean wasAnswerPicked(String input, ArrayList<ChoiceResponse> answers) {
+
+        for (int i = 0; i < answers.size(); i++) {
+
+            if (answers.get(i).getResponse().equals(input))
+                return true;
+        }
+
+        return false;
+
+    }
 
     public void displayCorrectAnswer() {
 
@@ -260,8 +288,35 @@ private ArrayList<String> multipleChoiceOptions = new ArrayList<>();
         prompt.setPrompt(consoleInput.getInput());
     }
 
-    public ArrayList<ChoiceResponse> getQuestionChoices() {
-        return questionChoices;
+    private void getChoicesFromUser() {
+
+        ChoiceResponse<String> choice;
+        // Get Number of options
+        try {
+            consoleOutput.display("How many " + questionType + " choices would you like?");
+            numOfChoices = Integer.parseInt(consoleInput.getInput());
+
+            if (numOfChoices < 2)
+                throw new IllegalArgumentException();
+
+            for (int i = 0; i < numOfChoices; i++) {
+                choice = new StringChoiceResponse();
+                consoleOutput.display("Enter Choice #" + (i + 1) + ":");
+                choice.setResponse(consoleInput.getInput());
+                addChoice(choice);
+            }
+        } catch (NumberFormatException e) {
+            consoleOutput.display("Enter a number");
+            getChoicesFromUser();
+        } catch (IllegalArgumentException e) {
+            consoleOutput.display("Must have more than one choice");
+            getChoicesFromUser();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            getChoicesFromUser();
+
+        }
     }
 
     public void addChoice(ChoiceResponse choiceResponse) {
@@ -275,13 +330,15 @@ private ArrayList<String> multipleChoiceOptions = new ArrayList<>();
         correctAnswers.add(answer);
     }
 
+    public void clearCorrectAnswers() {
+        correctAnswers.clear();
+    }
+
+    public void clearUserAnswers() {userAnswers.clear();}
+
     // Getters
     public Prompt getPrompt() {
         return prompt;
-    }
-
-    public ArrayList<String> getMultipleChoiceOptions() {
-        return multipleChoiceOptions;
     }
 
     public String getQuestionType() {
@@ -298,8 +355,22 @@ private ArrayList<String> multipleChoiceOptions = new ArrayList<>();
         return numOfCorrectAnswers;
     }
 
+    public int getQuestionChoicesSize() { return  questionChoices.size();}
+
     public ArrayList<ChoiceResponse> getCorrectAnswers() {
         return correctAnswers;
+    }
+
+    public ArrayList<String> getMultipleChoiceOptions() {
+        return multipleChoiceOptions;
+    }
+
+    public ArrayList<ChoiceResponse> getQuestionChoices() {
+        return questionChoices;
+    }
+
+    public ArrayList<ChoiceResponse> getUserAnswers() {
+        return userAnswers;
     }
 
     // Setters
@@ -316,5 +387,5 @@ private ArrayList<String> multipleChoiceOptions = new ArrayList<>();
         this.numOfChoices = numOfChoices;
     }
 
-    public void setCanEditChoices(boolean canEditChoices) { this.canEditChoices = canEditChoices;}
+
 }

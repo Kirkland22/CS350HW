@@ -13,7 +13,11 @@ public class Ranking extends Question {
 
     // Gets the Correct Answers for Ranking
     @Override
-    public void setAnswer() {
+    public void setCorrectAnswers() {
+
+        // Clears the list of correct answers in case it is full
+        clearCorrectAnswers();
+
         display();
         consoleOutput.display("Enter the correct order");
         ChoiceResponse<String> answer;
@@ -35,15 +39,18 @@ public class Ranking extends Question {
 
                 if (!choices.contains(input))
                     throw new IllegalStateException();
+                if (wasAnswerPicked(input,getCorrectAnswers()))
+                    throw new SetSameAnswerTwiceException();
 
                 answer.setResponse(input);
                 addAnswer(answer);
             }
-        }
-
-        catch (IllegalStateException e) {
+        } catch (IllegalStateException e) {
             consoleOutput.display("Not an Valid Answer");
-            setAnswer();
+            setCorrectAnswers();
+        } catch (SetSameAnswerTwiceException e) {
+            consoleOutput.display("Ranking choice can only be used once");
+            setCorrectAnswers();
         }
     }
 
@@ -57,6 +64,46 @@ public class Ranking extends Question {
         consoleOutput.displayOneLine("\n");
     }
 
+    @Override
+    protected void editAnswer() {
+        setCorrectAnswers();
+    }
 
+    @Override
+    protected void SurveyTake() {
 
+        ArrayList<String> multipleChoices = new ArrayList<>();
+        clearUserAnswers();
+        display();
+
+        try {
+
+            // Gets Multiple choice options for given question -- Returns A -> D if question has 4 options
+            for (int i = 0; i < getQuestionChoicesSize(); i++) {
+                multipleChoices.add(getMultipleChoiceOptions().get(i));
+            }
+
+            // Get User Answers
+            for (int i = 0; i < getQuestionChoicesSize(); i++) {
+
+                ChoiceResponse<String> ans = new StringChoiceResponse();
+                consoleOutput.display("Enter Rank Option #" + (i + 1) + ":");
+                String input = consoleInput.getInput().toUpperCase();
+                if (!multipleChoices.contains(input))
+                    throw new IllegalStateException();
+                // Check if same answer was used twice
+                if (wasAnswerPicked(input, getUserAnswers()))
+                    throw new SetSameAnswerTwiceException();
+
+                ans.setResponse(input);
+                userAnswers.add(ans);
+            }
+        } catch (SetSameAnswerTwiceException e) {
+            consoleOutput.display("Rank choice can only be used once");
+            SurveyTake();
+        } catch (IllegalStateException e) {
+            consoleOutput.display("Not a Valid Answer");
+            SurveyTake();
+        }
+    }
 }

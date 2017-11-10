@@ -8,7 +8,7 @@ public class ShortAnswer extends Question {
     }
 
     @Override
-    public void setAnswer() {
+    public void setCorrectAnswers() {
 
         display();
         consoleOutput.display("Enter the answer for the Short Answer");
@@ -22,6 +22,32 @@ public class ShortAnswer extends Question {
     @Override
     public void create() {
         getPromptFromUser();
+    }
+
+    @Override
+    protected void editAnswer() {
+        ChoiceResponse answer = getCorrectAnswers().get(0);
+        consoleOutput.displayOneLine("Old Choice: ");
+        answer.display();
+
+        consoleOutput.display("Enter New Choice: ");
+        String newChoice = consoleInput.getInput();
+
+        answer.setResponse(newChoice);
+    }
+
+    @Override
+    protected void editChoices() {
+        consoleOutput.display("Short Answer Question - Can only change Prompt or Answer");
+    }
+
+    @Override
+    protected void SurveyTake() {
+
+        display();
+        ChoiceResponse<String> ans = new StringChoiceResponse();
+        String input = consoleInput.getInput();
+        ans.setResponse(input);
     }
 
     @Override

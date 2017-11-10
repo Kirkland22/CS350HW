@@ -1,7 +1,7 @@
 /**
  * Created by Kirkland on 10/28/17.
  */
-public class Essay extends Question {
+public class Essay extends ShortAnswer {
 
 
     public Essay() {
@@ -10,21 +10,30 @@ public class Essay extends Question {
 
 
     @Override
-    public void setAnswer() {
+    public void setCorrectAnswers() {
 
     }
 
+    @Override
+    protected void editChoices() {
+        consoleOutput.display("Essay Question - Can only change Prompt");
+    }
+
+    @Override
+    protected void editAnswer() {
+        consoleOutput.display("Essay Question - Can only change Prompt");
+    }
 
     @Override
     public void display() {
         getPrompt().display();
     }
 
-
     @Override
     public void create() {
         getPromptFromUser();
 
     }
+
 
 }

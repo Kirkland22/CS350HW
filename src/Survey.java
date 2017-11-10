@@ -147,11 +147,6 @@ public class Survey implements Serializable {
         }
     }
 
-    protected void createQuestion(Question question) {
-        question.create();
-        questions.add( question );
-    }
-
     protected void edit() {
 
         ArrayList<Question> questions = getQuestions();
@@ -188,7 +183,20 @@ public class Survey implements Serializable {
            
     }
 
+    protected void take() {
+        for (int i = 0; i < questions.size(); i++) {
+            consoleOutput.displayOneLine((i+1) + ") ");
+            questions.get(i).SurveyTake();
+        }
 
+        consoleOutput.display("Done!");
+    }
+
+
+    protected void createQuestion(Question question) {
+        question.create();
+        questions.add( question );
+    }
     // Getters
     protected String getName() {
         return name;

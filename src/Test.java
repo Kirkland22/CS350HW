@@ -95,11 +95,13 @@ public class Test extends Survey {
 
     }
 
-    // TODO: 11/5/17 Override the edit function for test 
-    /*@Override
-    protected void edit() {
-        super.edit();
-    }*/
+    @Override
+    protected void take() {
+        for (int i = 0; i < questions.size(); i++) {
+            consoleOutput.displayOneLine((i+1) + ") ");
+            //questions.get(i).TestTake();
+        }
+    }
 
     // Getters
 
@@ -114,7 +116,7 @@ public class Test extends Survey {
     @Override
     protected void createQuestion(Question question) {
         question.create();
-        question.setAnswer();
+        question.setCorrectAnswers();
         questions.add( question );
     }
 

@@ -1,3 +1,5 @@
+
+
 /**
  * Created by Kirkland on 10/28/17.
  */
@@ -6,11 +8,10 @@ public class TrueFalse extends MultipleChoice {
 
     public TrueFalse() {
         setQuestionType("True/False");
-        setCanEditChoices(false);
     }
 
     @Override
-    public void setAnswer() {
+    public void setCorrectAnswers() {
         ChoiceResponse<String> answer;
         display();
         consoleOutput.display("Enter The Correct Answer (A or B):");
@@ -29,7 +30,7 @@ public class TrueFalse extends MultipleChoice {
 
         } catch (IllegalArgumentException e) {
             consoleOutput.display("Please choice A or B");
-            setAnswer();
+            setCorrectAnswers();
 
 
         }
@@ -58,5 +59,11 @@ public class TrueFalse extends MultipleChoice {
     @Override
     public void display() {
         super.display();
+    }
+
+
+    @Override
+    protected void editChoices() {
+        consoleOutput.display("Can not edit choices for Multiple Choice Options");
     }
 }
