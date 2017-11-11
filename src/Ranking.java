@@ -13,12 +13,6 @@ public class Ranking extends Question {
     }
 
 
-    @Override
-    public void tabulate() {
-
-        tabulateHashMap.forEach((k,v) -> consoleOutput.displayTwoColumn((String)k, ((Integer)v).toString()));
-    }
-
     // Gets the Correct Answers for Ranking
     @Override
     public void setCorrectAnswers() {
@@ -75,18 +69,6 @@ public class Ranking extends Question {
     @Override
     protected void editAnswer() {
         setCorrectAnswers();
-    }
-
-    public void addTimesChosen(String input) {
-
-        if (tabulateHashMap.containsKey(input))
-        {
-            tabulateHashMap.put(input, (Integer)tabulateHashMap.get(input) + 1);
-        }
-
-        else {
-            tabulateHashMap.put(input,1);
-        }
     }
 
     @Override

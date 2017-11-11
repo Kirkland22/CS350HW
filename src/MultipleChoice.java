@@ -66,26 +66,18 @@ public class MultipleChoice extends Question {
         consoleOutput.displayOneLine("\n");
     }
 
+    // Override to Tabulate in ABC order
     @Override
     public void tabulate() {
 
         for (int i = 0; i <getQuestionChoicesSize() ; i++) {
             String abc = getMultipleChoiceOptions().get(i);
             Integer count = (Integer)tabulateHashMap.get(abc);
+            if (count == null) {
+                count = 0;
+            }
+
             consoleOutput.displayTwoColumn(abc , count.toString());
-        }
-    }
-
-    @Override
-    public void addTimesChosen(String input) {
-
-        if (tabulateHashMap.containsKey(input))
-        {
-            tabulateHashMap.put(input, (Integer)tabulateHashMap.get(input) + 1);
-        }
-
-        else {
-            tabulateHashMap.put(input,1);
         }
     }
 

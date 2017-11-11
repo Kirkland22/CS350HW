@@ -42,7 +42,6 @@ public abstract class Question implements Serializable {
 
     public abstract void setCorrectAnswers();
 
-    public abstract void tabulate();
     /***********************/
 
 
@@ -95,6 +94,9 @@ public abstract class Question implements Serializable {
         }
     }
 
+    public void tabulate() {
+        tabulationHashMap.forEach((k,v) -> consoleOutput.displayTwoColumn((String)k, ((Integer)v).toString()));
+    }
 
     protected void editPrompt() {
         consoleOutput.display("Old Prompt: " + prompt.getPrompt());
@@ -223,9 +225,14 @@ public abstract class Question implements Serializable {
     // / Adds for the number of times chosen for tabulation
     public void addTimesChosen(String input) {
 
-        ArrayList<ChoiceResponse> choices = getQuestionChoices();
-        int index = multipleChoiceOptions.indexOf(input);
-        choices.get(index).addTimeChosen();
+        if (tabulationHashMap.containsKey(input))
+        {
+            tabulationHashMap.put(input, (Integer)tabulationHashMap.get(input) + 1);
+        }
+
+        else {
+            tabulationHashMap.put(input,1);
+        }
     }
 
     public boolean wasAnswerPicked(String input, ArrayList<ChoiceResponse> answers) {

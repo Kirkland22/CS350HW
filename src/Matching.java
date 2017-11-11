@@ -1,10 +1,12 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Kirkland on 10/28/17.
  */
 public class Matching extends Question {
 
+    private HashMap tabulateHashMap = getTabulationHashMap();
     private ArrayList<ChoiceResponse> rightSideChoices = new ArrayList<>();
 
     public Matching() {
@@ -12,17 +14,17 @@ public class Matching extends Question {
     }
 
 
+    // TODO: 11/11/17 Fix tabulation for matching to look better
+    @Override
+    public void tabulate() {
+        super.tabulate();
+    }
+
     @Override
     public void create() {
 
     getPromptFromUser();
     getChoices();
-
-    }
-
-    // TODO: 11/11/17 Finish Tabulate 
-    @Override
-    public void tabulate() {
 
     }
 
@@ -140,6 +142,7 @@ public class Matching extends Question {
         clearUserAnswers();
         display();
 
+        String matchOrder = "";
 
         consoleOutput.display("Select choices of right column that matches left column in descending order:");
         int numberOfChoices =  getQuestionChoicesSize();
@@ -147,8 +150,10 @@ public class Matching extends Question {
 
 
                 ChoiceResponse<String> tempAnswer = new StringChoiceResponse();
+                String abc =  getMultipleChoiceOptions().get(i);
 
-                consoleOutput.display("What number matches " + getMultipleChoiceOptions().get(i));
+
+                consoleOutput.display("What number matches " + abc);
                 try {
 
                     Integer input = Integer.parseInt(consoleInput.getInput());
@@ -163,6 +168,7 @@ public class Matching extends Question {
 
 
                     tempAnswer.setResponse(input.toString());
+                    matchOrder = matchOrder + abc + ":" + input.toString() + ", ";
                     userAnswers.add(tempAnswer);
 
                 }
@@ -177,10 +183,15 @@ public class Matching extends Question {
                     SurveyTake();
                 }
 
+
+
             }
 
-    }
+        //Trim off last ','
+        matchOrder = matchOrder.substring(0 , matchOrder.length()-1);
+        addTimesChosen(matchOrder);
 
+    }
 
     private void getChoices() {
 

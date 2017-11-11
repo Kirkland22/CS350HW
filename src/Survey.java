@@ -9,11 +9,11 @@ public class Survey implements Serializable {
 
     protected static ConsoleInput consoleInput = new ConsoleInput();
     protected static ConsoleOutput consoleOutput = new ConsoleOutput();
-    protected   String surveyNamePrompt = "Please Enter Survey/Test Name:";
-    private  static String pickSurveyToLoad = "Which survey would you like to load?";
-    protected   String[] addQuestionPrompt = {"1) Add a new T/F question","2) Add a new multiple choice question","3) Add a new short answer question","4) Add a new essay question","5) Add a new ranking question" , "6) Add a new matching question " , "7) Quit"};
-   protected String editMenuPrompt = "Which question do you want to edit?\n";
-    protected static String type = "Survey";
+    private String surveyNamePrompt = "Please Enter Survey/Test Name:";
+    private static String pickSurveyToLoad = "Which survey would you like to load?";
+    private String[] addQuestionPrompt = {"1) Add a new T/F question","2) Add a new multiple choice question","3) Add a new short answer question","4) Add a new essay question","5) Add a new ranking question" , "6) Add a new matching question " , "7) Quit"};
+    private String editMenuPrompt = "Which question do you want to edit?\n";
+    private static String type = "Survey";
     private static String folderName = "survey";
     private String userName;
 
@@ -76,8 +76,6 @@ public class Survey implements Serializable {
 
         return survey;
     }
-
-
 
     public void save(String folderName, String saveName) {
 
@@ -184,7 +182,6 @@ public class Survey implements Serializable {
            
     }
 
-    // TODO: 11/11/17 Save Survey after every take
     protected void take() {
 
         consoleOutput.display("Name of User Taking " + getType() + " :");
@@ -195,6 +192,11 @@ public class Survey implements Serializable {
             questions.get(i).SurveyTake();
         }
         String saveName = getSurveyName() + "_" + getUserName();
+
+        //save survey to update tabulation
+        save(folderName,surveyName);
+
+        //save individual survey that user has taken
         save("survey_taken",saveName);
         consoleOutput.display("Done!");
 
@@ -211,11 +213,12 @@ public class Survey implements Serializable {
         }
     }
 
-
     protected void createQuestion(Question question) {
         question.create();
         questions.add( question );
     }
+
+
     // Getters
     protected String getSurveyName() {
         return surveyName;
