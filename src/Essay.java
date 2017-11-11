@@ -35,5 +35,12 @@ public class Essay extends ShortAnswer {
 
     }
 
+    @Override
+    public void tabulate() {
 
+        for (int i = 0; i < getUserAnswers().size() ; i++) {
+            consoleOutput.display(getUserAnswers().get(i).getResponse());
+        }
+
+    }
 }

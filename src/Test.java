@@ -12,10 +12,8 @@ public class Test extends Survey {
 
     public Test() {
         super();
+        type = "test";
     }
-
-
-
 
     // Static Method
     public static Test load() {
@@ -68,6 +66,21 @@ public class Test extends Survey {
         return test;
     }
 
+    @Override
+    protected void take() {
+
+        consoleOutput.display("Name of User Taking " + getType() + " :");
+        setUserName(consoleInput.getInput());
+
+        for (int i = 0; i < questions.size(); i++) {
+            consoleOutput.displayOneLine((i+1) + ") ");
+            //questions.get(i).TestTake();
+        }
+        String saveName = getSurveyName() + "_" + getUserName();
+        save("survey_taken",saveName);
+        consoleOutput.display("Done!");
+
+    }
 
     @Override
     public void display() {
@@ -79,35 +92,8 @@ public class Test extends Survey {
         }
     }
 
-    @Override
-    public void save() {
-
-        try {
-            FileOutputStream fileOut = new FileOutputStream("test/" + getName());
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(this);
-            out.close();
-            fileOut.close();
-            System.out.println("Test is saved");
-        }catch(IOException i) {
-            i.printStackTrace();
-        }
-
-    }
-
-    @Override
-    protected void take() {
-        for (int i = 0; i < questions.size(); i++) {
-            consoleOutput.displayOneLine((i+1) + ") ");
-            //questions.get(i).TestTake();
-        }
-    }
 
     // Getters
-
-    public static String getType() {
-        return type;
-    }
 
     public static String getFolderName() {
         return folderName;

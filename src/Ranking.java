@@ -1,15 +1,23 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Kirkland on 10/28/17.
  */
 public class Ranking extends Question {
 
+    HashMap tabulateHashMap = getTabulationHashMap();
 
     public Ranking() {
         setQuestionType("Ranking");
     }
 
+
+    @Override
+    public void tabulate() {
+
+        tabulateHashMap.forEach((k,v) -> consoleOutput.displayTwoColumn((String)k, ((Integer)v).toString()));
+    }
 
     // Gets the Correct Answers for Ranking
     @Override
@@ -69,13 +77,26 @@ public class Ranking extends Question {
         setCorrectAnswers();
     }
 
+    public void addTimesChosen(String input) {
+
+        if (tabulateHashMap.containsKey(input))
+        {
+            tabulateHashMap.put(input, (Integer)tabulateHashMap.get(input) + 1);
+        }
+
+        else {
+            tabulateHashMap.put(input,1);
+        }
+    }
+
     @Override
     protected void SurveyTake() {
 
         ArrayList<String> multipleChoices = new ArrayList<>();
         clearUserAnswers();
         display();
-
+        //Stores rank order
+        String rankOrder = "";
         try {
 
             // Gets Multiple choice options for given question -- Returns A -> D if question has 4 options
@@ -95,9 +116,18 @@ public class Ranking extends Question {
                 if (wasAnswerPicked(input, getUserAnswers()))
                     throw new SetSameAnswerTwiceException();
 
+                //i.e rankOrder will be A,C,B,
+                rankOrder = rankOrder + input + ",";
                 ans.setResponse(input);
                 userAnswers.add(ans);
             }
+
+            //Trim off last ','
+            rankOrder = rankOrder.substring(0,rankOrder.length()-1);
+
+            addTimesChosen(rankOrder);
+
+
         } catch (SetSameAnswerTwiceException e) {
             consoleOutput.display("Rank choice can only be used once");
             SurveyTake();
@@ -106,4 +136,6 @@ public class Ranking extends Question {
             SurveyTake();
         }
     }
+
+
 }

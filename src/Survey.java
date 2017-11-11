@@ -13,15 +13,16 @@ public class Survey implements Serializable {
     private  static String pickSurveyToLoad = "Which survey would you like to load?";
     protected   String[] addQuestionPrompt = {"1) Add a new T/F question","2) Add a new multiple choice question","3) Add a new short answer question","4) Add a new essay question","5) Add a new ranking question" , "6) Add a new matching question " , "7) Quit"};
    protected String editMenuPrompt = "Which question do you want to edit?\n";
-    private static String type = "Survey";
+    protected static String type = "Survey";
     private static String folderName = "survey";
+    private String userName;
 
-    private String name;
+    private String surveyName;
     protected ArrayList<Question> questions = new ArrayList<>();
 
     public Survey() {
         consoleOutput.display(surveyNamePrompt);
-        setName( consoleInput.getInput() );
+        setSurveyName( consoleInput.getInput() );
     }
 
 
@@ -78,16 +79,16 @@ public class Survey implements Serializable {
 
 
 
-    public void save() {
+    public void save(String folderName, String saveName) {
 
         try {
 
-            FileOutputStream fileOut = new FileOutputStream(getFolderName()+"/" + getName());
+            FileOutputStream fileOut = new FileOutputStream(folderName+"/" + saveName);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(this);
             out.close();
             fileOut.close();
-            System.out.println( getType() + " is saved");
+            System.out.println( "Saved");
         }catch(IOException i) {
             i.printStackTrace();
         }
@@ -138,7 +139,7 @@ public class Survey implements Serializable {
     }
 
     public void display() {
-        consoleOutput.display("\t" + getName());
+        consoleOutput.display("\t" + getSurveyName());
         consoleOutput.display("--------------------------------");
         consoleOutput.display("");
         for (int i = 0; i < questions.size(); i++) {
@@ -183,13 +184,31 @@ public class Survey implements Serializable {
            
     }
 
+    // TODO: 11/11/17 Save Survey after every take
     protected void take() {
+
+        consoleOutput.display("Name of User Taking " + getType() + " :");
+        setUserName(consoleInput.getInput());
+
         for (int i = 0; i < questions.size(); i++) {
             consoleOutput.displayOneLine((i+1) + ") ");
             questions.get(i).SurveyTake();
         }
-
+        String saveName = getSurveyName() + "_" + getUserName();
+        save("survey_taken",saveName);
         consoleOutput.display("Done!");
+
+    }
+
+    protected void tabulate() {
+
+        for (int i = 0; i < questions.size(); i++) {
+
+            consoleOutput.displayOneLine((i + 1) + ") ");
+            questions.get(i).displayPrompt();
+            questions.get(i).tabulate();
+            consoleOutput.display("");
+        }
     }
 
 
@@ -198,8 +217,8 @@ public class Survey implements Serializable {
         questions.add( question );
     }
     // Getters
-    protected String getName() {
-        return name;
+    protected String getSurveyName() {
+        return surveyName;
     }
 
     public ArrayList<Question> getQuestions() {
@@ -214,10 +233,16 @@ public class Survey implements Serializable {
         return type;
     }
 
-    // Setters
-    protected void setName(String name) {
-        this.name = name;
+    public String getUserName() {
+        return userName;
     }
 
+    // Setters
+    protected void setSurveyName(String surveyName) {
+        this.surveyName = surveyName;
+    }
 
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 }

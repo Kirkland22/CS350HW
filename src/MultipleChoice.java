@@ -1,13 +1,45 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Kirkland on 10/21/17.
  */
 public class MultipleChoice extends Question {
 
+    HashMap tabulateHashMap = getTabulationHashMap();
 
     public MultipleChoice() {
         setQuestionType("Multiple Choice");
+    }
+
+    @Override
+    protected void SurveyTake() {
+
+        ArrayList<String> multipleChoices = new ArrayList<>();
+        clearUserAnswers();
+        display();
+
+        try {
+            // Gets Multiple choice options for given question -- Returns A -> D if question has 4 options
+            for (int i = 0; i < getQuestionChoicesSize(); i++) {
+                multipleChoices.add(getMultipleChoiceOptions().get(i));
+            }
+
+            ChoiceResponse<String> ans = new StringChoiceResponse();
+            String input = consoleInput.getInput().toUpperCase();
+
+            if (!multipleChoices.contains(input))
+                throw new IllegalStateException();
+
+            addTimesChosen(input);
+            ans.setResponse(input);
+            userAnswers.add(ans);
+        }
+
+        catch (IllegalStateException e) {
+            consoleOutput.display("Not a Valid Answer");
+            SurveyTake();
+        }
     }
 
     // Gets the Correct Answers for MC
@@ -32,6 +64,29 @@ public class MultipleChoice extends Question {
         }
 
         consoleOutput.displayOneLine("\n");
+    }
+
+    @Override
+    public void tabulate() {
+
+        for (int i = 0; i <getQuestionChoicesSize() ; i++) {
+            String abc = getMultipleChoiceOptions().get(i);
+            Integer count = (Integer)tabulateHashMap.get(abc);
+            consoleOutput.displayTwoColumn(abc , count.toString());
+        }
+    }
+
+    @Override
+    public void addTimesChosen(String input) {
+
+        if (tabulateHashMap.containsKey(input))
+        {
+            tabulateHashMap.put(input, (Integer)tabulateHashMap.get(input) + 1);
+        }
+
+        else {
+            tabulateHashMap.put(input,1);
+        }
     }
 
     private void getCorrectAnswersFromUser() {

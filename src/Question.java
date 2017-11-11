@@ -1,5 +1,6 @@
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Kirkland on 10/21/17.
@@ -9,8 +10,9 @@ public abstract class Question implements Serializable {
     protected static ConsoleInput consoleInput = new ConsoleInput();
     protected static ConsoleOutput consoleOutput = new ConsoleOutput();
     private Prompt prompt;
-    private ArrayList<String> multipleChoiceOptions;
 
+    private HashMap<String,Integer> tabulationHashMap = new HashMap<>();
+    private ArrayList<String> multipleChoiceOptions;
     private ArrayList<ChoiceResponse> questionChoices = new ArrayList<>();
     private ArrayList<ChoiceResponse> correctAnswers = new ArrayList<>();
     public ArrayList<ChoiceResponse> userAnswers = new ArrayList<>();
@@ -34,6 +36,15 @@ public abstract class Question implements Serializable {
         }
 
     }
+
+    /*** ABSTRACT METHODS ***/
+    public abstract void display();
+
+    public abstract void setCorrectAnswers();
+
+    public abstract void tabulate();
+    /***********************/
+
 
 
     public void create() {
@@ -124,7 +135,6 @@ public abstract class Question implements Serializable {
         }
     }
 
-
     protected void editAnswer() {
 
         ArrayList<ChoiceResponse> answers = getCorrectAnswers();
@@ -138,7 +148,7 @@ public abstract class Question implements Serializable {
 
         }
 
-        for (int i = 0; i < getNumOfChoices(); i++) {
+        for (int i = 0; i < getQuestionChoicesSize(); i++) {
 
             multipleChoicesOptions.add(getMultipleChoiceOptions().get(i));
 
@@ -174,52 +184,6 @@ public abstract class Question implements Serializable {
     }
 
 
-   /* protected void TestTake() {
-
-        ArrayList<String> multipleChoices = new ArrayList<>();
-
-        clearUserAnswers();
-        display();
-
-        consoleOutput.display("Please give " + (getNumOfCorrectAnswers() + 1) + " choices: ");
-
-        try {
-
-            // Gets Multiple choice options for given question -- Returns A -> D if question has 4 options
-            for (int i = 0; i < getNumOfChoices(); i++) {
-                multipleChoices.add(getMultipleChoiceOptions().get(i));
-            }
-
-            // Get User Answers
-            for (int i = 0; i < getNumOfCorrectAnswers(); i++) {
-
-
-                ChoiceResponse<String> ans = null;
-                ans = new StringChoiceResponse();
-                consoleOutput.display("Enter Answer #" + (i + 1) + ":");
-                String input = consoleInput.getInput().toUpperCase();
-
-                if (!multipleChoices.contains(input))
-                    throw new IllegalStateException();
-                if (wasAnswerPicked(input))
-                    throw new SetSameAnswerTwiceException();
-
-                ans.setResponse(input);
-                userAnswers.add(ans);
-            }
-        }
-
-        catch (SetSameAnswerTwiceException e) {
-            consoleOutput.display("Multiple choice can only be used once");
-            TestTake();
-        }
-        catch (IllegalStateException e) {
-            consoleOutput.display("Not a Valid Answer");
-            TestTake();
-        }
-
-    }*/
-
     protected void SurveyTake() {
 
         ArrayList<String> multipleChoices = new ArrayList<>();
@@ -239,9 +203,12 @@ public abstract class Question implements Serializable {
                 if (!multipleChoices.contains(input))
                     throw new IllegalStateException();
 
+                addTimesChosen(input);
                 ans.setResponse(input);
                 userAnswers.add(ans);
         }
+
+
 
         catch (IllegalStateException e) {
             consoleOutput.display("Not a Valid Answer");
@@ -249,14 +216,18 @@ public abstract class Question implements Serializable {
         }
     }
 
-    // ABSTRACT METHOD ///
-    public abstract void display();
-
-    public abstract void setCorrectAnswers();
-    ///////////////////////////////
+    /**** Helper Methods ****/
 
 
-    // Helper Methods
+
+    // / Adds for the number of times chosen for tabulation
+    public void addTimesChosen(String input) {
+
+        ArrayList<ChoiceResponse> choices = getQuestionChoices();
+        int index = multipleChoiceOptions.indexOf(input);
+        choices.get(index).addTimeChosen();
+    }
+
     public boolean wasAnswerPicked(String input, ArrayList<ChoiceResponse> answers) {
 
         for (int i = 0; i < answers.size(); i++) {
@@ -269,6 +240,14 @@ public abstract class Question implements Serializable {
 
     }
 
+    // Displays only the Prompt
+    public void displayPrompt() {
+
+        Prompt prompt = getPrompt();
+        prompt.display();
+    }
+
+    //Displays the correct answer if test
     public void displayCorrectAnswer() {
 
         ArrayList<ChoiceResponse> correct = getCorrectAnswers();
@@ -282,12 +261,14 @@ public abstract class Question implements Serializable {
         consoleOutput.displayOneLine("\n");
     }
 
+    // Get the Question Prompt from the AdminUser
     public void getPromptFromUser() {
 
         consoleOutput.display((PROMPT_QUESTION + questionType + " Question"));
         prompt.setPrompt(consoleInput.getInput());
     }
 
+    // Gets Choices from AdminUser
     private void getChoicesFromUser() {
 
         ChoiceResponse<String> choice;
@@ -319,22 +300,28 @@ public abstract class Question implements Serializable {
         }
     }
 
+    // Add Choice object to list of choices
     public void addChoice(ChoiceResponse choiceResponse) {
 
         questionChoices.add(choiceResponse);
 
     }
 
+    // Add Answer object to list of answers
     public void addAnswer(ChoiceResponse answer) {
 
         correctAnswers.add(answer);
     }
 
+    // Clears list of correct answers
     public void clearCorrectAnswers() {
         correctAnswers.clear();
     }
 
+    // Clears list of User input answers
     public void clearUserAnswers() {userAnswers.clear();}
+
+
 
     // Getters
     public Prompt getPrompt() {
@@ -371,6 +358,10 @@ public abstract class Question implements Serializable {
 
     public ArrayList<ChoiceResponse> getUserAnswers() {
         return userAnswers;
+    }
+
+    public HashMap<String, Integer> getTabulationHashMap() {
+        return tabulationHashMap;
     }
 
     // Setters

@@ -3,7 +3,7 @@
  */
 public class StringChoiceResponse extends ChoiceResponse {
 
-    private boolean correctAnswer = false;
+
 
     @Override
     public Object getResponse() {
@@ -23,12 +23,4 @@ public class StringChoiceResponse extends ChoiceResponse {
     }
 
 
-    public boolean isCorrectAnswer() {
-        return correctAnswer;
-    }
-
-
-    public void setCorrectAnswer(boolean correctAnswer) {
-        this.correctAnswer = correctAnswer;
-    }
 }

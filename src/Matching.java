@@ -20,6 +20,12 @@ public class Matching extends Question {
 
     }
 
+    // TODO: 11/11/17 Finish Tabulate 
+    @Override
+    public void tabulate() {
+
+    }
+
     @Override
     public void setCorrectAnswers() {
         clearCorrectAnswers();

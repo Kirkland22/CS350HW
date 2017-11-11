@@ -8,6 +8,9 @@ public class TrueFalse extends MultipleChoice {
 
     public TrueFalse() {
         setQuestionType("True/False");
+        tabulateHashMap.put("True",0);
+        tabulateHashMap.put("False",0);
+
     }
 
     @Override
@@ -61,9 +64,36 @@ public class TrueFalse extends MultipleChoice {
         super.display();
     }
 
+    @Override
+    public void addTimesChosen(String input) {
+
+        if (input.equals("A"))
+        {
+            tabulateHashMap.put("True", (Integer)tabulateHashMap.get("True") + 1);
+        }
+
+        else {
+            tabulateHashMap.put("False", (Integer)tabulateHashMap.get("False") + 1);
+        }
+    }
+
+    @Override
+    public void tabulate() {
+
+            Integer trueCount = (Integer)tabulateHashMap.get("True");
+            Integer falseCount = (Integer)tabulateHashMap.get("False");
+            consoleOutput.displayTwoColumn("True" , trueCount.toString());
+            consoleOutput.displayTwoColumn("False" , falseCount.toString());
+
+    }
 
     @Override
     protected void editChoices() {
-        consoleOutput.display("Can not edit choices for Multiple Choice Options");
+        consoleOutput.display("Can not edit choices for TF Options");
+    }
+
+    @Override
+    protected void editAnswer() {
+        super.editAnswer();
     }
 }
