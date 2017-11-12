@@ -6,12 +6,31 @@ import java.util.HashMap;
  */
 public class Ranking extends Question {
 
-    HashMap tabulateHashMap = getTabulationHashMap();
+
 
     public Ranking() {
         setQuestionType("Ranking");
     }
 
+
+    @Override
+    protected int grade() {
+
+        int numberCorrect = 0;
+
+        for (int i = 0; i < getNumOfCorrectAnswers(); i++) {
+
+            if (getUserAnswers().get(i).equals(getCorrectAnswers().get(i)))
+            {
+                numberCorrect++;
+            }
+        }
+
+        if (numberCorrect == getNumOfCorrectAnswers())
+            return 1;
+        else
+            return 0;
+    }
 
     // Gets the Correct Answers for Ranking
     @Override
@@ -72,7 +91,7 @@ public class Ranking extends Question {
     }
 
     @Override
-    protected void SurveyTake() {
+    protected void take() {
 
         ArrayList<String> multipleChoices = new ArrayList<>();
         clearUserAnswers();
@@ -112,10 +131,10 @@ public class Ranking extends Question {
 
         } catch (SetSameAnswerTwiceException e) {
             consoleOutput.display("Rank choice can only be used once");
-            SurveyTake();
+            take();
         } catch (IllegalStateException e) {
             consoleOutput.display("Not a Valid Answer");
-            SurveyTake();
+            take();
         }
     }
 

@@ -5,7 +5,7 @@ import java.io.*;
  */
 public class Test extends Survey {
 
-    private  static String pickSurveyToLoad = "Which Test would you like to load?";
+
     private static String type = "Test";
     private static String folderName = "test";
 
@@ -16,20 +16,20 @@ public class Test extends Survey {
     }
 
     // Static Method
-    public static Test load() {
+    public static Test load(String path) {
 
         Test test = null;
         boolean pickedValidChoice = false;
         String choice;
 
-        File folder = new File( getFolderName() );
+        File folder = new File( path );
 
         // gets you the list of files at this folder
         File[] listOfFiles = folder.listFiles();
         Integer index = 1;
         if (listOfFiles.length == 0) {
 
-            System.out.println("No Files to load");
+            consoleOutput.display("No Files to load");
         } else {
             for (int i = 0; i < listOfFiles.length; i++) {
                 String filename = listOfFiles[i].getName();
@@ -39,7 +39,6 @@ public class Test extends Survey {
 
             while (!pickedValidChoice) {
                 try {
-                    consoleOutput.display(pickSurveyToLoad);
                     choice = consoleInput.getInput();
                     File file = listOfFiles[Integer.parseInt(choice) - 1];
 
@@ -74,10 +73,13 @@ public class Test extends Survey {
 
         for (int i = 0; i < questions.size(); i++) {
             consoleOutput.displayOneLine((i+1) + ") ");
-            //questions.get(i).TestTake();
+            questions.get(i).take();
         }
         String saveName = getSurveyName() + "_" + getUserName();
-        save("survey_taken",saveName);
+
+        save(folderName,getSurveyName());
+        save("test_taken",saveName);
+
         consoleOutput.display("Done!");
 
     }
@@ -92,6 +94,27 @@ public class Test extends Survey {
         }
     }
 
+    public void grade() {
+        int grade = 0;
+        int numberOfUngradeable = 0;
+
+        for (int i = 0; i < questions.size(); i++) {
+
+            int returnValue;
+
+            returnValue = questions.get(i).grade();
+            // returnValue will be -1 if question cant be graded automatically
+            if (returnValue == -1) {
+                numberOfUngradeable++;
+            }
+            else {
+                grade = grade + returnValue;
+            }
+        }
+
+        consoleOutput.display("Grade = " + (grade*10) + "/" + (questions.size() - numberOfUngradeable)*10 + " with " + numberOfUngradeable + " left to be graded manually.");
+
+    }
 
     // Getters
 

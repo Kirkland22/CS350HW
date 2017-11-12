@@ -49,12 +49,30 @@ public class ShortAnswer extends Question {
     }
 
     @Override
+    protected int grade() {
+        int numberCorrect = 0;
+
+        for (int i = 0; i < getNumOfCorrectAnswers(); i++) {
+
+            if (getUserAnswers().get(i).equals(getCorrectAnswers().get(i)))
+            {
+                numberCorrect++;
+            }
+        }
+
+        if (numberCorrect == getNumOfCorrectAnswers())
+            return 1;
+        else
+            return 0;
+    }
+
+    @Override
     protected void editChoices() {
         consoleOutput.display("Short Answer Question - Can only change Prompt or Answer");
     }
 
     @Override
-    protected void SurveyTake() {
+    protected void take() {
 
         display();
         ChoiceResponse<String> ans = new StringChoiceResponse();

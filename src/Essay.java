@@ -10,6 +10,11 @@ public class Essay extends ShortAnswer {
 
 
     @Override
+    protected int grade() {
+        return -1;
+    }
+
+    @Override
     public void setCorrectAnswers() {
 
     }

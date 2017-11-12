@@ -22,5 +22,15 @@ public class StringChoiceResponse extends ChoiceResponse {
         System.out.println(string);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        StringChoiceResponse responseObj = (StringChoiceResponse)obj;
 
+        String response1 = (String)getResponse();
+        String response2 = (String)responseObj.getResponse();
+
+        return response1.equals(response2);
+
+
+    }
 }

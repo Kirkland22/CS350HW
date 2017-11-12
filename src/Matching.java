@@ -6,7 +6,6 @@ import java.util.HashMap;
  */
 public class Matching extends Question {
 
-    private HashMap tabulateHashMap = getTabulationHashMap();
     private ArrayList<ChoiceResponse> rightSideChoices = new ArrayList<>();
 
     public Matching() {
@@ -18,6 +17,25 @@ public class Matching extends Question {
     @Override
     public void tabulate() {
         super.tabulate();
+    }
+
+    @Override
+    protected int grade() {
+
+        int numberCorrect = 0;
+
+        for (int i = 0; i < getNumOfCorrectAnswers(); i++) {
+
+            if (getUserAnswers().get(i).equals(getCorrectAnswers().get(i)))
+            {
+                numberCorrect++;
+            }
+        }
+
+        if (numberCorrect == getNumOfCorrectAnswers())
+            return 1;
+        else
+            return 0;
     }
 
     @Override
@@ -138,7 +156,7 @@ public class Matching extends Question {
     }
 
     @Override
-    protected void SurveyTake() {
+    protected void take() {
         clearUserAnswers();
         display();
 
@@ -168,19 +186,19 @@ public class Matching extends Question {
 
 
                     tempAnswer.setResponse(input.toString());
-                    matchOrder = matchOrder + abc + ":" + input.toString() + ", ";
+                    matchOrder = matchOrder + abc + ":" + input.toString() + ",";
                     userAnswers.add(tempAnswer);
 
                 }
 
                 catch (IllegalArgumentException e) {
                     consoleOutput.display("Not a valid option");
-                    SurveyTake();
+                    take();
                 }
 
                 catch (SetSameAnswerTwiceException e) {
                     consoleOutput.display("Cant Match Same option twice");
-                    SurveyTake();
+                    take();
                 }
 
 

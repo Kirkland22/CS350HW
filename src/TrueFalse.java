@@ -1,5 +1,3 @@
-
-
 /**
  * Created by Kirkland on 10/28/17.
  */
@@ -52,6 +50,16 @@ public class TrueFalse extends MultipleChoice {
         addChoice(falseChoice);
 
 
+    }
+
+
+    @Override
+    protected int grade() {
+
+        if (getUserAnswers().get(0).equals(getCorrectAnswers().get(0)))
+            return 1;
+        else
+            return 0;
     }
 
     @Override

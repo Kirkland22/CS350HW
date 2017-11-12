@@ -12,7 +12,7 @@ public class Survey implements Serializable {
     private String surveyNamePrompt = "Please Enter Survey/Test Name:";
     private static String pickSurveyToLoad = "Which survey would you like to load?";
     private String[] addQuestionPrompt = {"1) Add a new T/F question","2) Add a new multiple choice question","3) Add a new short answer question","4) Add a new essay question","5) Add a new ranking question" , "6) Add a new matching question " , "7) Quit"};
-    private String editMenuPrompt = "Which question do you want to edit?\n";
+    private String editMenuPrompt = "Which question # do you want to edit?\n";
     private static String type = "Survey";
     private static String folderName = "survey";
     private String userName;
@@ -86,7 +86,6 @@ public class Survey implements Serializable {
             out.writeObject(this);
             out.close();
             fileOut.close();
-            System.out.println( "Saved");
         }catch(IOException i) {
             i.printStackTrace();
         }
@@ -189,7 +188,7 @@ public class Survey implements Serializable {
 
         for (int i = 0; i < questions.size(); i++) {
             consoleOutput.displayOneLine((i+1) + ") ");
-            questions.get(i).SurveyTake();
+            questions.get(i).take();
         }
         String saveName = getSurveyName() + "_" + getUserName();
 

@@ -4,8 +4,8 @@ public class Main {
     private static ConsoleOutput consoleOutput = new ConsoleOutput();
 
     private static String[] generalMenu = {"\nMenu 1:","1) Survey","2) Test","3) Quit"};
-    private static String[] surveyMenu2 = {"\nSurvey Menu 2:","1) Create a new Survey","2) Display a Survey","3) Load a Survey","4) Save a Survey","5) Modify an Existing Survey", "6) Take", "7) Tabulate"};
-    private static String[] testMenu2 = {"\nTest Menu 2:","1) Create a new Test","2) Display a Test","3) Load a Test","4) Save a Test","5) Modify an Existing Test", "6) Take"};
+    private static String[] surveyMenu2 = {"\nSurvey Menu 2:","1) Create a new Survey","2) Display a Survey","3) Load a Survey","4) Save a Survey","5) Modify an Existing Survey", "6) Take a Survey", "7) Tabulate a Survey", "8) Quit"};
+    private static String[] testMenu2 = {"\nTest Menu 2:","1) Create a new Test","2) Display a Test","3) Load a Test","4) Save a Test","5) Modify an Existing Test", "6) Take a Test", "7) Tabulate a Test", "8) Grade a Test" , "9) Quit"};
 
     public static void main(String[] args) {
 
@@ -14,6 +14,7 @@ public class Main {
 
     }
 
+    // TODO: 11/12/17 Testing
 
     private static void start() {
             consoleOutput.display(generalMenu);
@@ -55,7 +56,7 @@ public class Main {
                     }
                     break;
                 case "3":
-                    test = Test.load();
+                    test = Test.load(Test.getFolderName());
                     break;
                 case "4":
                     if(test != null) {
@@ -65,10 +66,32 @@ public class Main {
                         consoleOutput.display("No Test To Save");
                     break;
                 case "5":
-                    if (test == null) {
-                        test = test.load();
-                    }
-                    test.edit();
+                    consoleOutput.display("Which test would you like to modify?");
+                    test = test.load(Test.getFolderName());
+                    break;
+
+                case "6":
+                    consoleOutput.display("Which test would you like to take?");
+                    test = test.load(Test.getFolderName());
+                    test.take();
+                    break;
+
+                case "7":
+                    consoleOutput.display("Which test would you like to tabulate?");
+                    test = test.load(Test.getFolderName());
+                    test.tabulate();
+                    break;
+                case "8":
+                    Test temp = null;
+                    consoleOutput.display("Which test would you like to grade?");
+                    temp = Test.load("test_taken");
+                    temp.grade();
+                    break;
+                case "9":
+                    quit();
+                    break;
+                default:
+                    break;
 
             }
         }
@@ -87,11 +110,12 @@ public class Main {
                     survey.create();
                     break;
                 case "2":
-                    if(survey != null) {
-                        survey.display();
-                    }
+                    consoleOutput.display("Which survey would you like to display?");
+                    survey = Survey.load();
+                    survey.display();
                     break;
                 case "3":
+                    consoleOutput.display("Which survey would you like to load?");
                     survey = Survey.load();
                     break;
                 case "4":
@@ -102,19 +126,24 @@ public class Main {
                         consoleOutput.display("No Survey To Save");
                     break;
                 case "5":
-
-                    if (survey == null) {
-                        survey = Survey.load();
-                    }
+                    consoleOutput.display("Which survey would you like to edit?");
+                    survey = Survey.load();
                     survey.edit();
                     break;
 
                 case "6":
-                    consoleOutput.display("TAKING!");
+                    consoleOutput.display("Which survey would you like to take?");
+                    survey = Survey.load();
                     survey.take();
                     break;
                 case "7":
+                    consoleOutput.display("Which survey would you like to tabulate?");
+                    survey = Survey.load();
                     survey.tabulate();
+                    break;
+
+                case "8":
+                    quit();
                     break;
                 default:
                     break;

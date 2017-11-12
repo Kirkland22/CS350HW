@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 
 /**
@@ -13,33 +15,60 @@ public class MultipleChoice extends Question {
     }
 
     @Override
-    protected void SurveyTake() {
+    protected void take() {
 
-        ArrayList<String> multipleChoices = new ArrayList<>();
-        clearUserAnswers();
-        display();
+        if (getNumOfCorrectAnswers() > 1 ) {
+            multipleAnswerTake();
+        }
 
-        try {
-            // Gets Multiple choice options for given question -- Returns A -> D if question has 4 options
-            for (int i = 0; i < getQuestionChoicesSize(); i++) {
-                multipleChoices.add(getMultipleChoiceOptions().get(i));
+        else {
+            ArrayList<String> multipleChoices = new ArrayList<>();
+            clearUserAnswers();
+            display();
+
+            try {
+                // Gets Multiple choice options for given question -- Returns A -> D if question has 4 options
+                for (int i = 0; i < getQuestionChoicesSize(); i++) {
+                    multipleChoices.add(getMultipleChoiceOptions().get(i));
+                }
+
+                ChoiceResponse<String> ans = new StringChoiceResponse();
+                String input = consoleInput.getInput().toUpperCase();
+
+                if (!multipleChoices.contains(input))
+                    throw new IllegalStateException();
+
+                addTimesChosen(input);
+                ans.setResponse(input);
+                userAnswers.add(ans);
+            } catch (IllegalStateException e) {
+                consoleOutput.display("Not a Valid Answer");
+                take();
+            }
+        }
+    }
+
+    @Override
+    protected int grade() {
+        int numberCorrect = 0;
+
+        for (int i = 0; i < getUserAnswers().size(); i++) {
+
+            for (int j = 0; j <getCorrectAnswers().size() ; j++) {
+
+                if (getUserAnswers().get(i).equals(getCorrectAnswers().get(j)))
+                {
+                    numberCorrect++;
+                    break;
+                }
             }
 
-            ChoiceResponse<String> ans = new StringChoiceResponse();
-            String input = consoleInput.getInput().toUpperCase();
-
-            if (!multipleChoices.contains(input))
-                throw new IllegalStateException();
-
-            addTimesChosen(input);
-            ans.setResponse(input);
-            userAnswers.add(ans);
         }
 
-        catch (IllegalStateException e) {
-            consoleOutput.display("Not a Valid Answer");
-            SurveyTake();
-        }
+        if (numberCorrect == getNumOfCorrectAnswers())
+            return 1;
+
+        return 0 ;
     }
 
     // Gets the Correct Answers for MC
@@ -70,14 +99,76 @@ public class MultipleChoice extends Question {
     @Override
     public void tabulate() {
 
-        for (int i = 0; i <getQuestionChoicesSize() ; i++) {
-            String abc = getMultipleChoiceOptions().get(i);
-            Integer count = (Integer)tabulateHashMap.get(abc);
-            if (count == null) {
-                count = 0;
+        if (getCorrectAnswers().size() > 1) {
+            super.tabulate();
+        }
+
+        else {
+            for (int i = 0; i < getQuestionChoicesSize(); i++) {
+                String abc = getMultipleChoiceOptions().get(i);
+                Integer count = (Integer) tabulateHashMap.get(abc);
+                if (count == null) {
+                    count = 0;
+                }
+
+                consoleOutput.displayTwoColumn(abc, count.toString());
+            }
+        }
+    }
+
+    protected void multipleAnswerTake() {
+        ArrayList<String> multipleChoices = new ArrayList<>();
+        ArrayList<String> mcAnswers = new ArrayList<>();
+        clearUserAnswers();
+        display();
+
+        String mcOrder = "";
+
+        consoleOutput.display("Please give " + getNumOfCorrectAnswers()  + " choices: ");
+
+        try {
+
+            // Gets Multiple choice options for given question -- Returns A -> D if question has 4 options
+            for (int i = 0; i < getNumOfChoices(); i++) {
+                multipleChoices.add(getMultipleChoiceOptions().get(i));
             }
 
-            consoleOutput.displayTwoColumn(abc , count.toString());
+            // Get User Answers
+            for (int i = 0; i < getNumOfCorrectAnswers(); i++) {
+
+
+                ChoiceResponse<String> ans = null;
+                ans = new StringChoiceResponse();
+                consoleOutput.display("Enter Answer #" + (i + 1) + ":");
+                String input = consoleInput.getInput().toUpperCase();
+
+                if (!multipleChoices.contains(input))
+                    throw new IllegalStateException();
+                if (wasAnswerPicked(input, userAnswers))
+                    throw new SetSameAnswerTwiceException();
+
+
+                mcAnswers.add(input);
+                ans.setResponse(input);
+                userAnswers.add(ans);
+            }
+            Collections.sort(mcAnswers);
+
+
+            for (String s: mcAnswers) {
+                mcOrder = mcOrder + s + ",";
+            }
+
+            // Strip trailing ','
+            mcOrder = mcOrder.substring(0 , mcOrder.length()-1);
+            addTimesChosen(mcOrder);
+
+        } catch (SetSameAnswerTwiceException e) {
+            consoleOutput.display("Multiple choice can only be used once");
+            multipleAnswerTake();
+        } catch (IllegalStateException e) {
+            consoleOutput.display("Not a Valid Answer");
+            multipleAnswerTake();
         }
     }
 

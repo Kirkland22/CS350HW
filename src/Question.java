@@ -12,6 +12,7 @@ public abstract class Question implements Serializable {
     private Prompt prompt;
 
     private HashMap<String,Integer> tabulationHashMap = new HashMap<>();
+
     private ArrayList<String> multipleChoiceOptions;
     private ArrayList<ChoiceResponse> questionChoices = new ArrayList<>();
     private ArrayList<ChoiceResponse> correctAnswers = new ArrayList<>();
@@ -42,8 +43,12 @@ public abstract class Question implements Serializable {
 
     public abstract void setCorrectAnswers();
 
-    /***********************/
+    protected abstract void take();
 
+    protected abstract int grade();
+
+
+    /***********************/
 
 
     public void create() {
@@ -135,6 +140,8 @@ public abstract class Question implements Serializable {
             consoleOutput.display("Not a valid question choice");
             editChoices();
         }
+
+        setCorrectAnswers();
     }
 
     protected void editAnswer() {
@@ -186,37 +193,6 @@ public abstract class Question implements Serializable {
     }
 
 
-    protected void SurveyTake() {
-
-        ArrayList<String> multipleChoices = new ArrayList<>();
-        clearUserAnswers();
-        display();
-
-        try {
-
-            // Gets Multiple choice options for given question -- Returns A -> D if question has 4 options
-            for (int i = 0; i < getQuestionChoicesSize(); i++) {
-                multipleChoices.add(getMultipleChoiceOptions().get(i));
-            }
-
-                ChoiceResponse<String> ans = new StringChoiceResponse();
-                String input = consoleInput.getInput().toUpperCase();
-
-                if (!multipleChoices.contains(input))
-                    throw new IllegalStateException();
-
-                addTimesChosen(input);
-                ans.setResponse(input);
-                userAnswers.add(ans);
-        }
-
-
-
-        catch (IllegalStateException e) {
-            consoleOutput.display("Not a Valid Answer");
-            SurveyTake();
-        }
-    }
 
     /**** Helper Methods ****/
 
@@ -227,7 +203,7 @@ public abstract class Question implements Serializable {
 
         if (tabulationHashMap.containsKey(input))
         {
-            tabulationHashMap.put(input, (Integer)tabulationHashMap.get(input) + 1);
+            tabulationHashMap.put(input, tabulationHashMap.get(input) + 1);
         }
 
         else {
