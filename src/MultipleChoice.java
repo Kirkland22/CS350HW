@@ -104,6 +104,7 @@ public class MultipleChoice extends Question {
         }
 
         else {
+            consoleOutput.displayTwoColumn("Choice","Times Chosen");
             for (int i = 0; i < getQuestionChoicesSize(); i++) {
                 String abc = getMultipleChoiceOptions().get(i);
                 Integer count = (Integer) tabulateHashMap.get(abc);

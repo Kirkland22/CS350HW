@@ -10,7 +10,6 @@ public class Survey implements Serializable {
     protected static ConsoleInput consoleInput = new ConsoleInput();
     protected static ConsoleOutput consoleOutput = new ConsoleOutput();
     private String surveyNamePrompt = "Please Enter Survey/Test Name:";
-    private static String pickSurveyToLoad = "Which survey would you like to load?";
     private String[] addQuestionPrompt = {"1) Add a new T/F question","2) Add a new multiple choice question","3) Add a new short answer question","4) Add a new essay question","5) Add a new ranking question" , "6) Add a new matching question " , "7) Quit"};
     private String editMenuPrompt = "Which question # do you want to edit?\n";
     private static String type = "Survey";
@@ -50,7 +49,6 @@ public class Survey implements Serializable {
 
             while (!pickedValidChoice) {
                 try {
-                    consoleOutput.display(pickSurveyToLoad);
                     choice = consoleInput.getInput();
                     File file = listOfFiles[Integer.parseInt(choice) - 1];
 
@@ -69,6 +67,8 @@ public class Survey implements Serializable {
                     consoleOutput.display("IOException");
                 } catch (ClassNotFoundException c) {
                     consoleOutput.display("Survey class not found");
+                } catch (NumberFormatException e) {
+                    consoleOutput.display("Enter a number");
                 }
             }
 
@@ -133,6 +133,7 @@ public class Survey implements Serializable {
                 createQuestion(question);
         }
 
+
     }
 
     public void display() {
@@ -140,6 +141,7 @@ public class Survey implements Serializable {
         consoleOutput.display("--------------------------------");
         consoleOutput.display("");
         for (int i = 0; i < questions.size(); i++) {
+            consoleOutput.display(questions.get(i).getQuestionType() + ":");
             consoleOutput.displayOneLine((i+1) + ") ");
             questions.get(i).display();
         }
@@ -178,6 +180,8 @@ public class Survey implements Serializable {
                 }
                 
         }
+
+        save(folderName,surveyName);
            
     }
 

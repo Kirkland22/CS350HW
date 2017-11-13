@@ -19,11 +19,4 @@ public abstract class ChoiceResponse<T> implements Serializable {
 
     public abstract void display();
 
-    public int getTimesChosen() {
-        return timesChosen;
-    }
-
-    public void addTimeChosen() {
-        timesChosen = timesChosen + 1;
-    }
 }

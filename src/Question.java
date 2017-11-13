@@ -100,7 +100,8 @@ public abstract class Question implements Serializable {
     }
 
     public void tabulate() {
-        tabulationHashMap.forEach((k,v) -> consoleOutput.displayTwoColumn((String)k, ((Integer)v).toString()));
+        consoleOutput.displayTwoColumn("Choice","Times Chosen");
+        tabulationHashMap.forEach((k,v) -> consoleOutput.displayTwoColumn(k, v.toString() ) );
     }
 
     protected void editPrompt() {
@@ -141,7 +142,8 @@ public abstract class Question implements Serializable {
             editChoices();
         }
 
-        setCorrectAnswers();
+        if (numOfCorrectAnswers > 0)
+            setCorrectAnswers();
     }
 
     protected void editAnswer() {

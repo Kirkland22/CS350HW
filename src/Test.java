@@ -52,11 +52,13 @@ public class Test extends Survey {
                     pickedValidChoice = true;
 
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    consoleOutput.display("Not a valid survey to load");
+                    consoleOutput.display("Not a valid Test to load");
                 } catch (IOException i) {
                     consoleOutput.display("IOException");
                 } catch (ClassNotFoundException c) {
                     consoleOutput.display("Class not found");
+                } catch (NumberFormatException e) {
+                    consoleOutput.display("Enter a number");
                 }
             }
 

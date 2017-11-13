@@ -99,6 +99,7 @@ public class Matching extends Question {
     @Override
     public void display() {
 
+
         getPrompt().display();
         ArrayList<ChoiceResponse> leftSideChoices = getQuestionChoices();
 
@@ -164,52 +165,56 @@ public class Matching extends Question {
 
         consoleOutput.display("Select choices of right column that matches left column in descending order:");
         int numberOfChoices =  getQuestionChoicesSize();
-        for (int i = 0; i < numberOfChoices ; i++) {
+
+        try {
+            for (int i = 0; i < numberOfChoices; i++) {
 
 
                 ChoiceResponse<String> tempAnswer = new StringChoiceResponse();
-                String abc =  getMultipleChoiceOptions().get(i);
+                String abc = getMultipleChoiceOptions().get(i);
 
 
                 consoleOutput.display("What number matches " + abc);
-                try {
-
-                    Integer input = Integer.parseInt(consoleInput.getInput());
-
-                    if (input > numberOfChoices) {
-                        throw new IllegalArgumentException();
-                    }
-
-                    if (wasAnswerPicked(input.toString() , getUserAnswers() )) {
-                        throw new SetSameAnswerTwiceException();
-                    }
 
 
-                    tempAnswer.setResponse(input.toString());
-                    matchOrder = matchOrder + abc + ":" + input.toString() + ",";
-                    userAnswers.add(tempAnswer);
+                Integer input = Integer.parseInt(consoleInput.getInput());
 
+                if (input > numberOfChoices) {
+                    throw new IllegalArgumentException();
                 }
 
-                catch (IllegalArgumentException e) {
-                    consoleOutput.display("Not a valid option");
-                    take();
-                }
-
-                catch (SetSameAnswerTwiceException e) {
-                    consoleOutput.display("Cant Match Same option twice");
-                    take();
+                if (wasAnswerPicked(input.toString(), getUserAnswers())) {
+                    throw new SetSameAnswerTwiceException();
                 }
 
 
+                tempAnswer.setResponse(input.toString());
+                matchOrder = matchOrder + abc + ":" + input.toString() + ",";
+                userAnswers.add(tempAnswer);
 
             }
 
-        //Trim off last ','
-        matchOrder = matchOrder.substring(0 , matchOrder.length()-1);
-        addTimesChosen(matchOrder);
+            //Trim off last ','
+            matchOrder = matchOrder.substring(0 , matchOrder.length()-1);
+            addTimesChosen(matchOrder);
 
-    }
+        }
+
+        catch(IllegalArgumentException e){
+            consoleOutput.display("Not a valid option");
+            take();
+        }
+
+        catch(SetSameAnswerTwiceException e){
+            consoleOutput.display("Cant Match Same option twice");
+            take();
+        }
+            }
+
+
+
+
+
 
     private void getChoices() {
 

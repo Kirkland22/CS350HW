@@ -9,12 +9,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-
         start();
-
     }
 
-    // TODO: 11/12/17 Testing
 
     private static void start() {
             consoleOutput.display(generalMenu);
@@ -51,35 +48,40 @@ public class Main {
                     test.create();
                     break;
                 case "2":
-                    if(test != null) {
+                    consoleOutput.display("Which test would you like to display?");
+                    test = Test.load(Test.getFolderName());
+                    if( test != null)
                         test.display();
-                    }
                     break;
                 case "3":
+                    consoleOutput.display("Which test would you like to load?");
                     test = Test.load(Test.getFolderName());
                     break;
                 case "4":
                     if(test != null) {
                         test.save(Test.getFolderName(),test.getSurveyName());
+                        consoleOutput.display("Saved");
                     }
                     else
-                        consoleOutput.display("No Test To Save");
+                        consoleOutput.display("No Test Created To Save");
                     break;
                 case "5":
                     consoleOutput.display("Which test would you like to modify?");
-                    test = test.load(Test.getFolderName());
+                    test = Test.load(Test.getFolderName());
+                    test.edit();
                     break;
 
                 case "6":
                     consoleOutput.display("Which test would you like to take?");
-                    test = test.load(Test.getFolderName());
+                    test = Test.load(Test.getFolderName());
                     test.take();
                     break;
 
                 case "7":
                     consoleOutput.display("Which test would you like to tabulate?");
-                    test = test.load(Test.getFolderName());
-                    test.tabulate();
+                    test = Test.load(Test.getFolderName());
+                    if (test != null)
+                        test.tabulate();
                     break;
                 case "8":
                     Test temp = null;
@@ -139,7 +141,8 @@ public class Main {
                 case "7":
                     consoleOutput.display("Which survey would you like to tabulate?");
                     survey = Survey.load();
-                    survey.tabulate();
+                    if (survey != null)
+                        survey.tabulate();
                     break;
 
                 case "8":

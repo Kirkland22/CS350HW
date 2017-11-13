@@ -90,6 +90,7 @@ public class TrueFalse extends MultipleChoice {
 
             Integer trueCount = (Integer)tabulateHashMap.get("True");
             Integer falseCount = (Integer)tabulateHashMap.get("False");
+            consoleOutput.displayTwoColumn("Choice","Times Chosen");
             consoleOutput.displayTwoColumn("True" , trueCount.toString());
             consoleOutput.displayTwoColumn("False" , falseCount.toString());
 

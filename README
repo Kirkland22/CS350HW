@@ -1,10 +1,27 @@
 Sean Kirkland
-CS350 HW Part 2
+CS350 HW Part 3
 ################
 
 
-1) Test and Survey both are able to create,display, be saved and loaded.
+1) Test and Survey both are able to create,display,save,load,modified,taken,tabulated and for test only, grade.
 
 2) Basic error checking completed.
 
-3) One Test is already created in the "test" folder and one Survey is created in the "survey" folder
+3) If a survey/test is created and you wanna keep it, select save before you do anything else.
+
+4) When asked to enter an answer, It expects A,B,C..(or a,b,c doesn't matter) etc or 1,2,3... For Short Answer and Essay, User can input whatever they like.
+
+5) One Test is already created in the "test" folder and one Survey is created in the "survey" folder.
+
+6) The "Take" Feature:
+   - When a user takes a survey/test, they are asked for there name/userID/whatever and it is saved in the survey_taken/test_taken folder (although I don't think we need to save each survey since you cant grade them).
+
+7) The "Grade" Feature:
+   - When a admin wants to grade, they get a list of possible test to grade. The format will be TestName_UserWhoTookTest.
+   - They can then choice which user to grade and it will display the grade
+   - Example : Grade = 10/10 with 0 left to be graded manually.
+
+8) Tabulation:
+   -  Tabulated works but the tabulation for matching could look much better. I don't really have time to fix it until later.
+   -  Left Column is gonna be the choices, Right Column is how many times it was chosen.
+

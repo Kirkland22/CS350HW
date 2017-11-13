@@ -30,13 +30,6 @@ public class ShortAnswer extends Question {
     }
 
     @Override
-    public void tabulate() {
-
-        tabulateHashMap.forEach((k,v) -> consoleOutput.displayTwoColumn((String)k , ((Integer)v).toString() ));
-
-    }
-
-    @Override
     protected void editAnswer() {
         ChoiceResponse answer = getCorrectAnswers().get(0);
         consoleOutput.displayOneLine("Old Choice: ");
